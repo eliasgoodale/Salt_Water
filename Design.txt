@@ -1,0 +1,53 @@
+front end Dependencies
+install npm i unless specified
+	@material-ui/core
+	@material-ui/icons
+	joi
+
+
+End goal: Have a table that populates with users from a database via GET request to the backend API. The Main page contains the Table, Create, Update, and Delete buttons. Admins can search for users, modify their data, and soft-delete(make inactive) them.  
+
+Users object contains the following fields fields:
+
+Firstname : String;
+Lastname : String;
+Username : String;
+Password: String;
+IsActive? : Boolean;
+ListAdmin?: Boolean;
+UserAdmin?: Boolean;
+EntryAdmin?: Boolean;
+LocationManager? Boolean;
+OperatorAdmin? Boolean;
+Form16Admin? Boolean **DO NOT DISPLAY
+
+This timeframe is based on a 2 day sprint for delivery.
+
+USER TABLE
+	*	Users will be read into a table and displayed for the admin on the main page. The list will look similiar to a csv file with fields displayed
+	*	This list may be sorted by all fields
+	* Inactive users will not be shown by default
+	* Searching the list by name will take more time but can be implemented
+
+Completion time: 6 hours
+
+BUTTONS 
+
+	* CREATE
+			Whenever a user is created via POST a response is returned with the object including a uid of the new database entry as well as creation date and time. We need to validate the UID and that the response is valid (200 good). I will use a modal form that pops up on click of the create button. 
+
+	* UPDATE
+			I would like to use the same form as create, only the default fill of the forms will be what is already contained in fields instead of the default placeholder text. When the submit button on the modal is clicked the API performs a PATCH method to update the fields. 
+
+	* DELETE
+			Users can be selected for soft-delete. No user will be deleted from the database, instead the isActive field will be set to false for all of those users and they will not be included automatically when the table populates. When soft-delete is performed, everything is re-rendered.
+
+Completion time: 8 hours
+
+FORMS
+	CREATE and UPDATE use the same modal form, different placeholder text. The button that submits the new user object will not function until all .required() fields are correctly inputed according to specified regex. 
+
+Completion time: 2 hours
+
+TESTING
+	Basic testing to ensure all components work together fluidly. 
