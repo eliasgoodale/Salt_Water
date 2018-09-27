@@ -21,12 +21,14 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url'
 
+
+/*
 let counter = 0;
 function createData({ firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin } ) {
   counter += 1;
   return { id: counter, firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin  };
 }
-
+*/
 
 
 function desc(a, b, orderBy) {
