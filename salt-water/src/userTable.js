@@ -19,13 +19,15 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
-
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url'
 
 let counter = 0;
-function createData(firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin ) {
+function createData({ firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin } ) {
   counter += 1;
   return { id: counter, firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin  };
 }
+
+
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -211,19 +213,32 @@ class UserTable extends React.Component {
     order: 'asc',
     orderBy: 'firstName',
     selected: [],
-    data: [
-      createData('John', 'Doe', 'jdoe', '12345', true, false, false, false, false, false),
-			createData('Denise', 'Officeboss', 'dofficelady', 'catsaregreat', true, true, true, true, true, true),
-			createData('Bill', 'Officedude', 'bofficedude', 'dogsarebetter', true, true, false, true, false, true),
-			createData('David', 'Trucker', 'dtrucker', 'iluvoilfield', true, false, false, false, false, false),
-			createData('Benjamin', 'Deliveryguy', 'bdeliveryguy', 'woohoo', true, false, false, false, false, false),
-			createData('Kenneth', 'Dimples', 'kdimples', '$bigsmiles$', true, false, false, false, false, false),
-			createData('Jody', 'Toughgal', 'jtoughgal', '!flexinonboys1', true, false, false, false, false, false),
-			createData('Allie', 'Trumplover', 'atrumplover', 'iluvtrump', true, false, false, false, false, false),
-    ],
+    data: [],
     page: 0,
     rowsPerPage: 5,
   };
+
+  populateTable = (responseJson) => {
+
+ 
+  }
+
+  componentDidMount = () => {
+    fetch(API_URL, {
+      method: 'GET'
+   })
+   .then((response) => response.json())
+   .then((responseJson) => {
+      console.log(responseJson);
+      
+      this.setState({
+         data: responseJson
+      })
+   })
+   .catch((error) => {
+      console.error(error);
+   });
+  }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
