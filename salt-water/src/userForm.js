@@ -70,7 +70,6 @@ class CreateUserForm extends React.Component {
     isLocationManager: false,
     isOperatorAdmin: false,
     checked: [],
-    open: false,
     sendingForm: false,
     sentForm: false
   };
