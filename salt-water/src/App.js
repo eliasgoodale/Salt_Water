@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
+import Header from './Layout/Header'; 
 import './App.css';
-import UserTable from './userTable.js'
-import CrudButtons from './userButtons.js'
+import UserTable from './userTable.js';
 
 
 
 
 class App extends Component {
-  render() {
-    return (
-      <div>
-      <UserTable/>
+	render() {
+		return (
+			<Fragment>
+			<Header/>
+			<UserTable/>
 
-      <CrudButtons/>
-      </div>
-    );
-  }
+			</Fragment>
+		);
+	}
 }
 
 export default App;

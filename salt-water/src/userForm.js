@@ -196,7 +196,7 @@ class CreateUserForm extends React.Component {
     }
   };
   render() {
-    const { classes } = this.props;
+    const { classes, } = this.props;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
