@@ -32,9 +32,12 @@ export default class UserEntry extends Component {
 		});
 	}
 
-	handleInput = name => event => {
+	handleInput = name => ({target: { value }}) => {
 		this.setState({
-			[name]: event.target.value
+			newUser: {
+			...this.state.newUser,
+			[name]: value
+			}
 		});
 	};
 
@@ -68,27 +71,29 @@ export default class UserEntry extends Component {
 							<form>
 								<TextField
 									label="First Name"
-									value={this.state.firstName}
+									value={firstName}
 									onChange={this.handleInput("firstName")}
 									margin="normal"
 								/>
 								<TextField
 									label="Last Name"
-									value={this.state.lastName}
+									value={lastName}
 									onChange={this.handleInput("lastName")}
 									margin="normal"
 								/>
+								<br/>
 								<TextField
 									label="Username"
-									value={this.state.username}
+									value={username}
 									onChange={this.handleInput("username")}
 									margin="normal"
 								/>
+
 								<TextField
 									id="standard-password-input"
 									label="Password"
 									type="password"
-									value={this.state.password}
+									value={password}
 									onChange={this.handleInput("password")}
 									autoComplete="current-password"
 									margin="normal"
