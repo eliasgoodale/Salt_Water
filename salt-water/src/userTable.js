@@ -220,11 +220,6 @@ class UserTable extends React.Component {
     rowsPerPage: 5,
   };
 
-  populateTable = (responseJson) => {
-
- 
-  }
-
   componentDidMount = () => {
     fetch(API_URL, {
       method: 'GET'

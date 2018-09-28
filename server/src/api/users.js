@@ -10,7 +10,7 @@ const schema = Joi.object().keys({
 	username: Joi.string().regex(/^[a-zA-ZÀ-ÿ-_]{4,50}$/).required(),
 	password: Joi.string().min(6).max(25).required(),
 	isActive: Joi.boolean().required(),
-	islistAdmin: Joi.boolean().required(),
+	isListAdmin: Joi.boolean().required(),
 	isUserAdmin: Joi.boolean().required(),
 	isEntryAdmin: Joi.boolean().required(),
 	isLocationManager: Joi.boolean().required(),
@@ -33,13 +33,13 @@ router.post('/', (req, res) => {
 	const result = Joi.validate(req.body, schema);
 	if (result.error === null) {
 		const { firstName, lastName, username, 
-						password, isActive, islistAdmin,
+						password, isActive, isListAdmin,
 						isUserAdmin, isEntryAdmin, isLocationManager,
 						isOperatorAdmin } = req.body
 		const newUser = {
 			firstName, lastName,
 			username, password,
-			isActive, islistAdmin,
+			isActive, isListAdmin,
 			isUserAdmin, isEntryAdmin, 
 			isLocationManager,
 			isOperatorAdmin,
