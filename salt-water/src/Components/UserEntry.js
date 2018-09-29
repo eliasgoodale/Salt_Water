@@ -7,12 +7,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import Update from '@material-ui/icons/Update';
 import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+
+
+/*Delete this later after passing from Mainscreen as prop*/
 import Joi from 'joi';
 
 const styles = theme => ({
 	FormControl : {
-		width: 200
+		width: 200,
+	},
+	TopButtons: {
+		margin: 30,
+
 	}
 
 })
@@ -121,9 +131,37 @@ class UserEntry extends Component {
 		const { classes } = this.props 
 		return (
 			<Fragment>
-				<Button variant="fab" onClick={this.handleToggle} mini>
-					<AddIcon />
-				</Button>
+				<Tooltip title="Create User">
+					<Button
+						className={classes.TopButtons} 
+						variant="fab" 
+						onClick={this.handleToggle}
+						aria-label="Create User" 
+						mini
+					>
+						<AddIcon />
+					</Button>
+				</Tooltip>
+				<Tooltip title="Deactivate User(s)">
+					<Button
+						className={classes.TopButtons} 
+						variant="fab" 
+						color="secondary"
+						aria-label="Deactivate User(s)" 
+						mini>
+						<NotInterestedIcon />
+					</Button>
+				</Tooltip>
+				<Tooltip title="Update User">
+					<Button
+						className={classes.TopButtons}
+						variant="fab"
+						aria-label="Update User"
+						mini
+						>
+						<Update/>
+					</Button>
+				</Tooltip>
 				<Dialog
 					open={this.state.open}
 					onClose={this.handleToggle}
@@ -174,8 +212,11 @@ class UserEntry extends Component {
 							</form>
 					</DialogContent>
 					<DialogActions>
-						<Button  color="primary" variant="raised" 
+						<Button  
+							color="primary" 
+							variant="raised" 
 							onClick={this.handleSubmit}
+							disabled={!this.formIsValid()}
 							>
 							Create
 						</Button>

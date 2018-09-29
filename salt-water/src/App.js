@@ -20,7 +20,7 @@ const schema = Joi.object().keys({
 	isOperatorAdmin: Joi.boolean().required(),
 });
 
-class App extends Component {
+class MainScreen extends Component {
 	state = {
 		apiUrl: API_URL,
 	}
@@ -40,4 +40,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default MainScreen;
