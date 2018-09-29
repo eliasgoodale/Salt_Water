@@ -9,6 +9,16 @@ const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:500
 
 /* 	Have a method that dynamically changes the schema based on which form the user is interacting with */
 
+/* make buttons import from one source */
+
+/* redact tooltip bar with selected users */ 
+
+/* make save button instead of create across update and create forms*/
+
+/* make a method that adds the user to the list on POST */
+
+/* Use the createContext method to pass components down the tree. However, this makes component reuse more difficult. Use it sparingly*/ 
+
 const schema = Joi.object().keys({
 	firstName: Joi.string().regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/).required(),
 	lastName: Joi.string().regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/).required(),
@@ -29,13 +39,13 @@ class MainScreen extends Component {
 	render() {
 		return (
 			<Fragment>
-			<Header	
-				schema={schema}
-				apiUrl = {this.state.apiUrl}
-			/>
-			<UserTable
-				getUrl={this.state.apiUrl}
-			/>
+				<Header	
+					schema={schema}
+					apiUrl = {this.state.apiUrl}
+				/>
+				<UserTable
+					getUrl={this.state.apiUrl}
+				/>
 
 			</Fragment>
 		);

@@ -19,6 +19,8 @@ import Joi from 'joi';
 const styles = theme => ({
 	FormControl : {
 		width: 200,
+		marginLeft: theme.spacing.unit,
+		marginRight: theme.spacing.unit,
 	},
 	TopButtons: {
 		margin: 30,
@@ -26,8 +28,12 @@ const styles = theme => ({
 	}
 
 })
+/* What I need to do is create an array of each item mapped to the state of the component */
 
 class UserEntry extends Component {
+	constructor (props) {
+		super(props);
+	}
 	state = {
 		open: false,
 		newUser: {
@@ -89,6 +95,7 @@ class UserEntry extends Component {
 				sendingForm: true
 			});
 			this.submitForm();
+			//Addusertotable()
 			this.setState ({
 				open: false,
 				newUser: {
@@ -104,6 +111,7 @@ class UserEntry extends Component {
 					isOperatorAdmin: false,
 				},
 			})
+			
 		}
 
 	}
@@ -170,7 +178,7 @@ class UserEntry extends Component {
 					<DialogTitle id="form-dialog-title">
 						New User
 					</DialogTitle>
-
+				{/*create cancel button for user dialog form redact click outside of box to cancel and clear the state*/}	
 					<DialogContent>
 						<DialogContentText>
 							Insert helpful text here
@@ -183,7 +191,7 @@ class UserEntry extends Component {
 									onChange={this.handleInput("firstName")}
 									margin="normal"
 								/>
-								{' '}
+								
 								<TextField
 								className={classes.FormControl}
 									label="Last Name"
@@ -199,7 +207,7 @@ class UserEntry extends Component {
 									onChange={this.handleInput("username")}
 									margin="normal"
 								/>
-								{' '}
+								
 								<TextField
 								className={classes.FormControl}
 									label="Password"

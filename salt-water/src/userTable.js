@@ -157,7 +157,7 @@ let UserTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            User List
+            Active Users
           </Typography>
         )}
       </div>

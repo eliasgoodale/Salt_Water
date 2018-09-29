@@ -2,7 +2,7 @@ const express = require('express');
 const Joi = require('joi');
 
 const db = require('../db');
-const users = db.get('users');
+const users = db.get('users'); 
 
 const schema = Joi.object().keys({
 	firstName: Joi.string().regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/).required(),
@@ -16,8 +16,6 @@ const schema = Joi.object().keys({
 	isLocationManager: Joi.boolean().required(),
 	isOperatorAdmin: Joi.boolean().required(),
 });
-
-
 
 const router = express.Router();
 

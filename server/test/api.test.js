@@ -22,12 +22,12 @@ describe('GET /api/v1', () => {
 describe('POST /api/v1/users', () => {
 	it('responds with inserted user', function(done) {
 		const requestObj = {
-			firstName: 'Jimmy' ,
+			firstName: 'Johny' ,
 			lastName: 'Dean',
 			username: 'jdean',
 			password: 'sausages123',
 			isActive: true,
-			islistAdmin: false,
+			isListAdmin: false,
 			isUserAdmin: false,
 			isEntryAdmin: false,
 			isLocationManager: false,
