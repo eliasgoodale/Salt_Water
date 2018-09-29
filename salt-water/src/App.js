@@ -7,6 +7,8 @@ import Joi from 'joi';
 /* Have a function that dynamically switches the url based on availability */
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url'
 
+/* 	Have a method that dynamically changes the schema based on which form the user is interacting with */
+
 const schema = Joi.object().keys({
 	firstName: Joi.string().regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/).required(),
 	lastName: Joi.string().regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/).required(),
