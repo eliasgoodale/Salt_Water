@@ -7,8 +7,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
+import { withStyles } from '@material-ui/core/styles';
+import Joi from 'joi';
 
-export default class UserEntry extends Component {
+const styles = theme => ({
+	FormControl : {
+		width: 200
+	}
+
+})
+
+class UserEntry extends Component {
 	state = {
 		open: false,
 		newUser: {
@@ -16,7 +25,7 @@ export default class UserEntry extends Component {
 			lastName: "",
 			username: "",
 			password: "",
-			isActive: false,
+			isActive: true,
 			isListAdmin: false,
 			isUserAdmin: false,
 			isEntryAdmin: false,
@@ -24,6 +33,69 @@ export default class UserEntry extends Component {
 			isOperatorAdmin: false,
 		},
 		checked: [0],
+		sendingForm: false,
+		sentForm: false,
+		postUrl: this.props.postUrl,
+	}
+
+	formIsValid = (schema=this.props.schema) => {
+		const { newUser } = this.state;
+		const result = Joi.validate(newUser, schema);
+		console.log(result);
+		return result.error ? false : true;
+	};
+
+	submitForm = (url=this.state.postUrl) => {
+
+			fetch(url, {
+				method: "POST",
+				headers: {
+					"content-type": "application/json"
+				},
+				body: JSON.stringify({
+					firstName: this.state.firstName,
+					lastName: this.state.lastName,
+					username: this.state.username,
+					password: this.state.password,
+					isActive: this.state.isActive,
+					isListAdmin: this.state.isListAdmin,
+					isUserAdmin: this.state.isUserAdmin,
+					isEntryAdmin: this.state.isEntryAdmin,
+					isLocationManager: this.state.isLocationManager,
+					isOperatorAdmin: this.state.isOperatorAdmin
+				})
+			}).then(res => res.json()).then(message => {
+					console.log(message);
+					setTimeout(() => { 
+						this.setState({ sendingForm: false, sentForm: true });
+					}, 1000);
+				});
+	};
+
+	handleSubmit = event => {
+		event.preventDefault();
+		if (this.formIsValid()) {
+			this.setState({
+				sendingForm: true
+			});
+			this.submitForm();
+			this.setState ({
+				open: false,
+				newUser: {
+					firstName: "",
+					lastName: "",
+					username: "",
+					password: "",
+					isActive: true,
+					isListAdmin: false,
+					isUserAdmin: false,
+					isEntryAdmin: false,
+					isLocationManager: false,
+					isOperatorAdmin: false,
+				},
+			})
+		}
+
 	}
 
 	handleToggle = () => {
@@ -42,14 +114,11 @@ export default class UserEntry extends Component {
 	};
 
 	render () {
-		const { 
-			open, 
-			newUser: { 
-			firstName, lastName, username,
-			password,isActive,isListAdmin,
-			isUserAdmin, isEntryAdmin, isLocationManager,
-			isOperatorAdmin,
-			} } = this.state
+		const { open, newUser:
+			{	firstName, lastName, username, password, isActive, isListAdmin, 
+				isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin, } 
+		} = this.state
+		const { classes } = this.props 
 		return (
 			<Fragment>
 				<Button variant="fab" onClick={this.handleToggle} mini>
@@ -70,12 +139,15 @@ export default class UserEntry extends Component {
 						</DialogContentText>
 							<form>
 								<TextField
+								className={classes.FormControl}
 									label="First Name"
 									value={firstName}
 									onChange={this.handleInput("firstName")}
 									margin="normal"
 								/>
+								{' '}
 								<TextField
+								className={classes.FormControl}
 									label="Last Name"
 									value={lastName}
 									onChange={this.handleInput("lastName")}
@@ -83,14 +155,15 @@ export default class UserEntry extends Component {
 								/>
 								<br/>
 								<TextField
+								className={classes.FormControl}
 									label="Username"
 									value={username}
 									onChange={this.handleInput("username")}
 									margin="normal"
 								/>
-
+								{' '}
 								<TextField
-									id="standard-password-input"
+								className={classes.FormControl}
 									label="Password"
 									type="password"
 									value={password}
@@ -101,7 +174,9 @@ export default class UserEntry extends Component {
 							</form>
 					</DialogContent>
 					<DialogActions>
-						<Button  color="primary" variant="raised">
+						<Button  color="primary" variant="raised" 
+							onClick={this.handleSubmit}
+							>
 							Create
 						</Button>
 					</DialogActions>
@@ -110,3 +185,5 @@ export default class UserEntry extends Component {
 		);
 	}
 }
+
+export default withStyles(styles)(UserEntry);

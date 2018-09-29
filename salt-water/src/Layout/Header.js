@@ -5,11 +5,20 @@ import AppBar from '@material-ui/core/AppBar';
 import UserEntry from '../Components/UserEntry';
 
 
-export default (props) =>
-	<AppBar position="static">
-		<Toolbar>
-			<Typography variant="headline" color="inherit" style={{flex: 0}}>
-			</Typography>
-			<UserEntry/>
-		</Toolbar>
-	</AppBar>
+export default class Header extends React.Component {
+	
+	render() {
+		return(
+			<AppBar position="static">
+				<Toolbar>
+					<Typography variant="headline" color="inherit" style={{flex: 0}}>
+					</Typography>
+					<UserEntry 
+						schema = {this.props.schema}
+						postUrl = {this.props.apiUrl}
+					/>
+				</Toolbar>
+			</AppBar>
+		);
+	}
+}

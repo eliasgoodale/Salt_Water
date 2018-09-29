@@ -19,16 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url'
 
-
-/*
-let counter = 0;
-function createData({ firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin } ) {
-  counter += 1;
-  return { id: counter, firstName, lastName, username, password, isActive, isListAdmin, isUserAdmin, isEntryAdmin, isLocationManager, isOperatorAdmin  };
-}
-*/
 
 
 function desc(a, b, orderBy) {
@@ -218,15 +209,19 @@ class UserTable extends React.Component {
     data: [],
     page: 0,
     rowsPerPage: 5,
+    getUrl: this.props.getUrl,
   };
 
-  componentDidMount = () => {
-    fetch(API_URL, {
+  componentDidMount = (url=this.state.getUrl) => {
+    fetch(url, {
       method: 'GET'
    })
    .then((response) => response.json())
    .then((responseJson) => {
-      console.log(responseJson);
+    for (var i = 0; i < responseJson.length; i++) {
+      responseJson[i].listId = i;
+    }
+    console.log(responseJson);
       
       this.setState({
          data: responseJson
@@ -250,7 +245,7 @@ class UserTable extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState(state => ({ selected: state.data.map(n => n.listId) }));
       return;
     }
     this.setState({ selected: [] });
@@ -289,7 +284,7 @@ class UserTable extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { data, order, orderBy, selected, rowsPerPage, page, } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
@@ -309,15 +304,15 @@ class UserTable extends React.Component {
               {stableSort(data, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.listId);
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, n.id)}
+                      onClick={event => this.handleClick(event, n.listId)}
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
+                      key={n.listId}
                       selected={isSelected}
                     >
                       <TableCell padding="checkbox">
@@ -330,22 +325,22 @@ class UserTable extends React.Component {
                       <TableCell string>{n.username}</TableCell>
                       <TableCell string>{n.password}</TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isActive == true} />
+                        <Checkbox checked={n.isActive === true} />
                       </TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isListAdmin == true} />
+                        <Checkbox checked={n.isListAdmin === true} />
                       </TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isUserAdmin == true} />
+                        <Checkbox checked={n.isUserAdmin === true} />
                       </TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isEntryAdmin == true} />
+                        <Checkbox checked={n.isEntryAdmin === true} />
                       </TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isLocationManager == true} />
+                        <Checkbox checked={n.isLocationManager === true} />
                       </TableCell>
 											<TableCell padding="checkbox">
-                        <Checkbox checked={n.isOperatorAdmin == true} />
+                        <Checkbox checked={n.isOperatorAdmin === true} />
                       </TableCell>
                     </TableRow>
                   );
