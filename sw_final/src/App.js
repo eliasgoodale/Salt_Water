@@ -1,29 +1,11 @@
 import React, { Component, Fragment } from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
-import UpdateIcon from "@material-ui/icons/Update";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import UserToolbar from './components/UserToolbar';
 import UserForm from './components/UserForm';
@@ -54,16 +36,6 @@ const schema = Joi.object().keys({
 	isLocationManager: Joi.boolean().required(),
 	isOperatorAdmin: Joi.boolean().required()
 });
-
-
-function isEmpty(obj) {
-	for (var key in obj) {
-		if (obj.hasOwnProperty(key))
-			return false;
-	}
-	return true;
-}
-
 
 function desc(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -202,10 +174,8 @@ class App extends Component {
 
 	deleteSelected = () => {
 		let { selectedUsers, data } = this.state;
-		//console.log(selectedUsers);
 
 		for (var i = 0; i < selectedUsers.length; i++) {
-			// console.log(selectedUsers[i]._id);
 			let mark = data.find(searchUser => searchUser._id === selectedUsers[i]._id)
 			mark["isActive"] = false;
 			this.setState({
@@ -214,7 +184,7 @@ class App extends Component {
 				alertOpen: false,
 			}) 
 		 }
-
+		 /*Delete*/
 	}
 	createUser = (newUser) => {
 		let {data} = this.state;
@@ -223,46 +193,9 @@ class App extends Component {
 		this.setState({
 			data: data
 		})
-		// console.log("called method");
-		// console.log(newUser);
-		// const url = API_URL;
-		// // console.log(`${url} ${prevData} ${newUser}`);
-		// if (this.formIsValid()) {
-		// 	fetch(url, {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"content-type": "application/json"
-		// 		},
-		// 		body: JSON.stringify({
-		// 			firstName: newUser.firstName,
-		// 			lastName: newUser.lastName,
-		// 			username: newUser.username,
-		// 			password: newUser.password,
-		// 			isActive: newUser.isActive,
-		// 			isListAdmin: newUser.isListAdmin,
-		// 			isUserAdmin: newUser.isUserAdmin,
-		// 			isEntryAdmin: newUser.isEntryAdmin,
-		// 			isLocationManager: newUser.isLocationManager,
-		// 			isOperatorAdmin: newUser.isOperatorAdmin
-		// 		})
-		// 	})
-		// 		.then(res => res.json())
-		// 		 .then(message => {
-		// 			console.log(message);
-		// 			setTimeout(() => {
-		// 				this.setState({
-		// 					sendingForm: false,
-		// 					sentForm: true
-		// 				});
-		// 			}, 1000);
-		// 		});
-		// }
+		/*Post*/
 	};
 
-// 	const newData = prevData.unshift(newUser)
-// 		this.setState({
-// 	data: newData,
-// })
 
 	handleClick = (event, listid) => {
 		event.preventDefault();
@@ -292,22 +225,7 @@ class App extends Component {
 				selectedUsers.slice(selectedUserIndex + 1)
 			);
 		}
-		// console.log(`newSelected: ${newSelected}`);
-		// for(let i = 0; i < newSelectedUsers.length; i++)
-		// {
-		// 	console.log(Object.values(newSelectedUsers[i]));
-		// }
 
-
-		
-		// if (newSelected.length === 1)
-		//   this.setState({
-		//     updateData: this.state.data.find(user => user.id === newSelected[0])
-		//   });1
-		// console.log(this.state.updateData);
-		//console.log(this.state.data.find(user => user.listid === newSelected[0]));
-		//updateData = newSelected.length === 1 ?  this.state.data.find(user => user.listid === newSelected[0]) : {}
-		// console.log(updateData)
 		this.setState({
 			selected: newSelected,
 			selectedUsers: newSelectedUsers,
@@ -317,8 +235,6 @@ class App extends Component {
 
 	filterActive = (dataSet) => {
 		let filterData = [];
-		//console.log(dataSet);
-
 		for(let i = 0; i < dataSet.length;  i++) {
 			if(dataSet[i].isActive === true)
 				filterData.push(dataSet[i]);
@@ -335,7 +251,7 @@ class App extends Component {
 	};
 
 	handleFormToggle = () => {
-		console.log("called")
+		//console.log("called")
 		this.setState({
 			formOpen: !this.state.formOpen,
 		});
@@ -369,12 +285,6 @@ class App extends Component {
 	};
 	isSelected = id => this.state.selected.indexOf(id) !== -1;
 	
-	clearForm = () => {
-		this.setState({
-			formData: this.props.blankData,
-		});
-	};
-
 	render() {
 		const { formData, formOpen, showInactive, selectedUsers, alertOpen, data, order, orderBy, selected, rowsPerPage, page } = this.state;
 		const emptyRows =
@@ -397,12 +307,11 @@ class App extends Component {
 				<UserForm
 					open={formOpen}
 					close={this.handleFormToggle}
-					formData={formData}
+					formData={numSelected == 1 ? selectedUsers[0] : blankData}
 					blankData={blankData}
 					createUser={this.createUser}
 					updateUser={this.updateUser}
 					formIsValid={this.formIsValid}
-					clearForm={this.clearForm}
 
 				/>
 				<Paper className={styles.root}>

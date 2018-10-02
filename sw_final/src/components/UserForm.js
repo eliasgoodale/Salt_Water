@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import List from "@material-ui/core/List";
@@ -8,53 +8,31 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Joi from "joi";
+import PropTypes from 'prop-types';
 
-// Pass in submit method, url, data,
+const blankData = {
+	_id: "",
+	firstName: "",
+	lastName: "",
+	username: "",
+	password: "",
+	isActive: false,
+	isListAdmin: false,
+	isUserAdmin: false,
+	isEntryAdmin: false,
+	isLocationManager: false,
+	isOperatorAdmin: false,
+};
 
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url';
-
-// const schema = Joi.object().keys({
-// 	firstName: Joi.string()
-// 		.regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/)
-// 		.required(),
-// 	lastName: Joi.string()
-// 		.regex(/^[a-zA-ZÀ-ÿ -]{2,25}$/)
-// 		.required(),
-// 	username: Joi.string()
-// 		.regex(/^[a-zA-ZÀ-ÿ-_]{4,50}$/)
-// 		.required(),
-// 	password: Joi.string()
-// 		.min(6)
-// 		.max(25)
-// 		.required(),
-// 	isActive: Joi.boolean().required(),
-// 	isListAdmin: Joi.boolean().required(),
-// 	isUserAdmin: Joi.boolean().required(),
-// 	isEntryAdmin: Joi.boolean().required(),
-// 	isLocationManager: Joi.boolean().required(),
-// 	isOperatorAdmin: Joi.boolean().required()
-// });
-
-const styles = theme => ({
-	FormControl: {
-		width: 200,
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit
-	},
-	TopButtons: {
-		margin: 30
-	}
-});
 
 export default class UserForm extends Component {
 	constructor(props) {
 		super(props);
 
 		this.handleInput = this.handleInput.bind(this);
-		// this.createUser = this.createUser.bind(this);
+		this.clearForm = this.clearForm.bind(this);
+
 	}
 	
 	state = {
@@ -78,61 +56,7 @@ export default class UserForm extends Component {
 			this.setState({formData: formData})
 		}
 	}
-	// formIsValid = () => {
-	// 	const { formData } = this.state
-	// 	const newUser = {
-	// 		firstName: formData.firstName,
-	// 		lastName: formData.lastName,
-	// 		username: formData.username,
-	// 		password: formData.password,
-	// 		isActive: formData.isActive,
-	// 		isListAdmin: formData.isListAdmin,
-	// 		isUserAdmin: formData.isUserAdmin,
-	// 		isEntryAdmin: formData.isEntryAdmin,
-	// 		isLocationManager: formData.isLocationManager,
-	// 		isOperatorAdmin: formData.isOperatorAdmin
-	// 	};
-	// 	const result = Joi.validate(newUser, schema);
-	// 	//console.log(result);
-	// 	return result.error ? false : true;
-	// };
-
-	// createUser = (newUser) => {
-	// 	console.log("called method")
-	// 	const url = API_URL;
-	// 	// console.log(`${url} ${prevData} ${newUser}`);
-	// 	if (this.formIsValid()) {
-	// 		fetch(url, {
-	// 			method: "POST",
-	// 			headers: {
-	// 				"content-type": "application/json"
-	// 			},
-	// 			body: JSON.stringify({
-	// 				firstName: newUser.firstName,
-	// 				lastName: newUser.lastName,
-	// 				username: newUser.username,
-	// 				password: newUser.password,
-	// 				isActive: newUser.isActive,
-	// 				isListAdmin: newUser.isListAdmin,
-	// 				isUserAdmin: newUser.isUserAdmin,
-	// 				isEntryAdmin: newUser.isEntryAdmin,
-	// 				isLocationManager: newUser.isLocationManager,
-	// 				isOperatorAdmin: newUser.isOperatorAdmin
-	// 			})
-	// 		})
-	// 			.then(res => res.json())
-	// 			.then(message => {
-	// 				console.log(message);
-	// 				setTimeout(() => {
-	// 					this.setState({
-	// 						sendingForm: false,
-	// 						sentForm: true
-	// 					});
-	// 				}, 1000);
-	// 			});
-	// 	}
-	// };
-
+	
 	handleCheckboxToggle = value => () => {
 		let {formData} = this.state
 		const { checked } = this.state;
@@ -207,26 +131,18 @@ export default class UserForm extends Component {
 
 	};
 
-
-	logSubmission = event => {
-		event.preventDefault();
-		console.log(this.state.formData);
-	}
-
-	handleToggle = () => {
+	clearForm = () => {
+		console.log('called');
 		this.setState({
-			open: !this.state.open
-		});
-	};
+			formData: blankData,
+		})
+	}
 
 	handleInput = e => {
 		let {formData} = this.state;
 		const name = e.target.name;
 		const value = e.target.value;
 		formData[name] = value		
-		// console.log([name])
-		// console.log(value)
-		// console.log(this.state.formData)
 		this.setState({formData});
 	};
 
@@ -260,20 +176,19 @@ export default class UserForm extends Component {
 			isLocationManager,
 			isOperatorAdmin
 		} = this.state.formData;
-
+		
 		// const submitFunc = username === "" ? this.props.createUser : this.props.updateUser
 		const submitButtonTitle = _id === "" ? "Create" : "Update";
 
 		const {formData} = this.state;
-		// console.log(this.state.formData);	
+		console.log(this.state.formData);	
 		return (
 			<Dialog
 				open={this.props.open}
-				onClose={this.props.clearForm}
-				aria-labelledby="form-dialog-title"
+				onClose={this.clearForm}
+				aria-labelledby="create-update-form"
 			>
-				<DialogTitle id="form-dialog-title">New User</DialogTitle>
-				{/*create cancel button for user dialog form redact click outside of box to cancel and clear the state*/}
+				<DialogTitle id="form-dialog-title">{submitButtonTitle}</DialogTitle>
 				<DialogContent>
 
 			<form id="user-form" onSubmit={this.onSubmit} >
@@ -322,7 +237,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(0)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(0) !== -1}
+									checked={isActive}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -337,7 +252,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(1)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(1) !== -1}
+									checked={isListAdmin}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -352,7 +267,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(2)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(2) !== -1}
+									checked={isUserAdmin}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -367,7 +282,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(3)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(3) !== -1}
+									checked={isEntryAdmin}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -382,7 +297,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(4)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(4) !== -1}
+									checked={isLocationManager}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -396,7 +311,7 @@ export default class UserForm extends Component {
 								onClick={this.handleCheckboxToggle(5)}
 							>
 								<Checkbox
-									checked={this.state.checked.indexOf(5) !== -1}
+									checked={isOperatorAdmin}
 									tabIndex={-1}
 									disableRipple
 								/>
@@ -425,4 +340,12 @@ export default class UserForm extends Component {
 			</Dialog>
 		);
 	}
+}
+
+UserForm.propTypes = {
+	formData: PropTypes.object.isRequired,
+}
+
+UserForm.defaultProps = {
+	formData: blankData,
 }
