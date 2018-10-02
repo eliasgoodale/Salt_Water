@@ -127,6 +127,7 @@ class CreateUserForm extends React.Component {
           break;
       }
     }
+
     this.setState({
       checked: newChecked
     });

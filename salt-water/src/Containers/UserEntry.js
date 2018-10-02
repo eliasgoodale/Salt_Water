@@ -115,7 +115,9 @@ class UserEntry extends Component {
 		}
 
 	}
-
+                    this.setState({
+	updateId: (this.isSelected(n.id) && this.state.selected.length === 1) ? n.id : -1
+}),
 	handleToggle = () => {
 		this.setState({
 			open: !this.state.open,

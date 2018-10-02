@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 		});
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 	const result = Joi.validate(req.body, schema);
 	if (result.error === null) {
 		const { firstName, lastName, username, 
@@ -52,6 +52,5 @@ router.post('/', (req, res) => {
 	else {
 		next(result.error);
 	}
-
 })
 module.exports = router;

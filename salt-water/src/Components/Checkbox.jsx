@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Checkbox from "@material-ui/core/Checkbox" 
 
-const UserEntryCheckbox = ({ className, label, checked=false, onChange }) => (
-	<input type={type} label={label} checked={checked} onChange={onChange} />
-);
 
 Checkbox.propTypes = {
 	className: PropTypes.object,
