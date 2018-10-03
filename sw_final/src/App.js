@@ -162,10 +162,6 @@ class App extends Component {
 							isLocationManager: false,
 							isOperatorAdmin: false,
 						}
-
-
-
-						
 					]
 				})
 			})
