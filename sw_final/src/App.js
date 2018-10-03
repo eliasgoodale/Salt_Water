@@ -124,6 +124,7 @@ class App extends Component {
 				this.setState({
 					data: [
 						{
+							listid: 0,
 							_id: "59843752938759",
 							firstName: "Eli",
 							lastName: "Goodale",
@@ -137,6 +138,7 @@ class App extends Component {
 							isOperatorAdmin: true,
 						},
 						{
+							listid: 1,
 							_id: "745r893427529",
 							firstName: "SomeDude",
 							lastName: "WithLastname",
@@ -150,6 +152,7 @@ class App extends Component {
 							isOperatorAdmin: false,
 						},
 						{
+							listid: 2,
 							_id: "2348503489",
 							firstName: "Cindy",
 							lastName: "Crawford",
