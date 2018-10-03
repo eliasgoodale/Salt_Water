@@ -98,7 +98,48 @@ class App extends Component {
 		this.state = {
 			order: "asc",
 			orderBy: "firstName",
-			data: [],
+			data: [{
+				listid: 0,
+				_id: "59843752938759",
+				firstName: "Eli",
+				lastName: "Goodale",
+				username: "egoodale",
+				password: "greatpassword",
+				isActive: true,
+				isListAdmin: true,
+				isUserAdmin: true,
+				isEntryAdmin: true,
+				isLocationManager: true,
+				isOperatorAdmin: true,
+			},
+				{
+					listid: 1,
+					_id: "745r893427529",
+					firstName: "SomeDude",
+					lastName: "WithLastname",
+					username: "welp",
+					password: "slastname",
+					isActive: true,
+					isListAdmin: false,
+					isUserAdmin: false,
+					isEntryAdmin: false,
+					isLocationManager: false,
+					isOperatorAdmin: false,
+				},
+				{
+					listid: 2,
+					_id: "2348503489",
+					firstName: "Cindy",
+					lastName: "Crawford",
+					username: "ccrawford",
+					password: "lsakjdflkadjf",
+					isActive: true,
+					isListAdmin: false,
+					isUserAdmin: false,
+					isEntryAdmin: false,
+					isLocationManager: false,
+					isOperatorAdmin: false,
+				}],
 			selected: [],
 			alertOpen: false,
 			showInactive: false,
@@ -110,68 +151,68 @@ class App extends Component {
 		this.filterActive = this.filterActive.bind(this);
 	}
 	
-	componentWillMount = (url = API_URL) => {
-		fetch(url, {
-			method: 'GET'
-		})
-			.then((response) => response.json())
-			.then((responseJson) => {
-				for (var i = 0; i < responseJson.length; i++) {
-					responseJson[i].listid = i;
-				}
+	// componentWillMount = (url = API_URL) => {
+	// 	fetch(url, {
+	// 		method: 'GET'
+	// 	})
+	// 		.then((response) => response.json())
+	// 		.then((responseJson) => {
+	// 			for (var i = 0; i < responseJson.length; i++) {
+	// 				responseJson[i].listid = i;
+	// 			}
 
-				//console.log(responseJson);
-				this.setState({
-					data: [
-						{
-							listid: 0,
-							_id: "59843752938759",
-							firstName: "Eli",
-							lastName: "Goodale",
-							username: "egoodale",
-							password: "greatpassword",
-							isActive: true,
-							isListAdmin: true,
-							isUserAdmin: true,
-							isEntryAdmin: true,
-							isLocationManager: true,
-							isOperatorAdmin: true,
-						},
-						{
-							listid: 1,
-							_id: "745r893427529",
-							firstName: "SomeDude",
-							lastName: "WithLastname",
-							username: "welp",
-							password: "slastname",
-							isActive: true,
-							isListAdmin: false,
-							isUserAdmin: false,
-							isEntryAdmin: false,
-							isLocationManager: false,
-							isOperatorAdmin: false,
-						},
-						{
-							listid: 2,
-							_id: "2348503489",
-							firstName: "Cindy",
-							lastName: "Crawford",
-							username: "ccrawford",
-							password: "lsakjdflkadjf",
-							isActive: true,
-							isListAdmin: false,
-							isUserAdmin: false,
-							isEntryAdmin: false,
-							isLocationManager: false,
-							isOperatorAdmin: false,
-						}
-					]
-				})
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}
+	// 			//console.log(responseJson);
+	// 			this.setState({
+	// 				data: [
+	// 					{
+	// 						listid: 0,
+	// 						_id: "59843752938759",
+	// 						firstName: "Eli",
+	// 						lastName: "Goodale",
+	// 						username: "egoodale",
+	// 						password: "greatpassword",
+	// 						isActive: true,
+	// 						isListAdmin: true,
+	// 						isUserAdmin: true,
+	// 						isEntryAdmin: true,
+	// 						isLocationManager: true,
+	// 						isOperatorAdmin: true,
+	// 					},
+	// 					{
+	// 						listid: 1,
+	// 						_id: "745r893427529",
+	// 						firstName: "SomeDude",
+	// 						lastName: "WithLastname",
+	// 						username: "welp",
+	// 						password: "slastname",
+	// 						isActive: true,
+	// 						isListAdmin: false,
+	// 						isUserAdmin: false,
+	// 						isEntryAdmin: false,
+	// 						isLocationManager: false,
+	// 						isOperatorAdmin: false,
+	// 					},
+	// 					{
+	// 						listid: 2,
+	// 						_id: "2348503489",
+	// 						firstName: "Cindy",
+	// 						lastName: "Crawford",
+	// 						username: "ccrawford",
+	// 						password: "lsakjdflkadjf",
+	// 						isActive: true,
+	// 						isListAdmin: false,
+	// 						isUserAdmin: false,
+	// 						isEntryAdmin: false,
+	// 						isLocationManager: false,
+	// 						isOperatorAdmin: false,
+	// 					}
+	// 				]
+	// 			})
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error(error);
+	// 		});
+	// }
 
 	toggleAlert = () => {
 		this.setState({
