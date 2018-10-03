@@ -30,18 +30,16 @@ export default class UserForm extends Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			formData: this.props.formData,
+			sendingForm: false,
+			checked: [],
+		};
+
 		this.handleInput = this.handleInput.bind(this);
 		this.clearForm = this.clearForm.bind(this);
 
 	}
-	
-	state = {
-		formData: this.props.formData,
-		sendingForm: false,
-		checked: [],
-		sentForm: false,
-		postUrl: this.props.postUrl
-	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.formData !== prevState.formData) {
@@ -151,18 +149,17 @@ export default class UserForm extends Component {
 		const { formData } = this.state;
 
 
-		console.log(formData)
-		if (formData._id === "")
-			this.props.createUser(formData);
-		else
-			this.props.updateUser(formData);
+		//console.log(formData)
+		this.props.submit(formData);
 		this.props.close();
 
 	}
 
 
 	render() {
-	
+		
+
+		const {formData, open, close, formIsValid, buttonTitle} = this.props 
 		const {
 			_id,
 			firstName,
@@ -175,20 +172,16 @@ export default class UserForm extends Component {
 			isEntryAdmin,
 			isLocationManager,
 			isOperatorAdmin
-		} = this.state.formData;
-		
-		// const submitFunc = username === "" ? this.props.createUser : this.props.updateUser
-		const submitButtonTitle = _id === "" ? "Create" : "Update";
-
-		const {formData} = this.state;
-		console.log(this.state.formData);	
+		} = formData;
+		// console.log(this.props.submit);
+		// console.log(close);
 		return (
 			<Dialog
-				open={this.props.open}
+				open={open}
 				onClose={this.clearForm}
 				aria-labelledby="create-update-form"
 			>
-				<DialogTitle id="form-dialog-title">{submitButtonTitle}</DialogTitle>
+				<DialogTitle id="form-dialog-title">{buttonTitle}</DialogTitle>
 				<DialogContent>
 
 			<form id="user-form" onSubmit={this.onSubmit} >
@@ -322,15 +315,14 @@ export default class UserForm extends Component {
 					variant="contained"
 					color="primary"
 					type="submit"
-				//  disabled={!this.formIsValid()}
-				//  onClick={this.createUser(formData)}
 				>
-					{submitButtonTitle}
+					{buttonTitle}
         </Button>
 				<Button
 					variant="contained"
 					color="inherit"
-					onClick={this.props.close}
+					onClick={close}
+					//disabled={this.formIsValid}
 					>
 						Cancel
 					</Button>

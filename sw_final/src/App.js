@@ -75,6 +75,7 @@ const styles = theme => ({
 		overflowX: "auto"
 	}
 });
+
 const blankData = {
 	_id: "",
 	firstName: "",
@@ -100,11 +101,7 @@ class App extends Component {
 			data: [],
 			selected: [],
 			alertOpen: false,
-			formOpen: false,
-			formData: blankData,
 			showInactive: false,
-			sendingForm: false,
-			sentForm: true,
 			numSelected: 0,
 			selectedUsers: [],
 			page: 0,
@@ -159,16 +156,12 @@ class App extends Component {
 	};
 
 	updateUser = (updatedUser) => {
-		console.log(updatedUser._id);
+		console.log("UPDATE!!!!");
 		let {data} = this.state;
+		let targetUserIndex = data.findIndex(user => user._id === updatedUser._id);
+		data[targetUserIndex] = updatedUser 
+		this.setState({data: data})
 
-		let targetUser = data.find(user => user._id === updatedUser._id)
-		
-
-		console.log(targetUser);
-		for(var key in updatedUser) {
-			targetUser[key] = updatedUser[key]
-		}
 		/*PUT*/
 	}
 
@@ -189,7 +182,7 @@ class App extends Component {
 	createUser = (newUser) => {
 		let {data} = this.state;
 		data.unshift(newUser);
-		console.log(data);
+		console.log("CREATE!!!!");
 		this.setState({
 			data: data
 		})
@@ -250,14 +243,15 @@ class App extends Component {
 		this.setState({ rowsPerPage: event.target.value });
 	};
 
+	
+
+
 	handleFormToggle = () => {
 		//console.log("called")
 		this.setState({
 			formOpen: !this.state.formOpen,
 		});
 	};
-
-
 
 	toggleShowInactive = () => {
 		this.setState({
@@ -276,13 +270,6 @@ class App extends Component {
 		this.setState({ order, orderBy });
 	};
 
-	handleSelectAllClick = event => {
-		if (event.target.checked) {
-			this.setState(state => ({ selected: state.data.map(n => n.id) }));
-			return;
-		}
-		this.setState({ selected: [] });
-	};
 	isSelected = id => this.state.selected.indexOf(id) !== -1;
 	
 	render() {
@@ -291,10 +278,7 @@ class App extends Component {
 			rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
 		const numSelected = selected.length;
-		//console.log(showInactive);
-		// console.log(formData);
-		// if(numSelected === 1)
-		// 	console.log(selectedUsers[0]);
+
 		return (
 	
 			<Fragment>
@@ -304,21 +288,15 @@ class App extends Component {
 				open={alertOpen}
 				close={this.toggleAlert}
 			/> 
-				<UserForm
-					open={formOpen}
-					close={this.handleFormToggle}
-					formData={numSelected == 1 ? selectedUsers[0] : blankData}
-					blankData={blankData}
-					createUser={this.createUser}
-					updateUser={this.updateUser}
-					formIsValid={this.formIsValid}
-
-				/>
 				<Paper className={styles.root}>
 					<UserToolbar
-						openForm={this.handleFormToggle}
 						numSelected={selected.length}
-						deleteAction = {this.toggleAlert}
+						blankData={blankData}
+						createUser={this.createUser}
+						updateUser={this.updateUser}
+						formIsValid={this.formIsValid}
+						selectedUser = {selectedUsers[0]}
+						deleteAction={this.toggleAlert}
 					/>
 					<div className={styles.tableWrapper}>
 						<Table className={styles.table} aria-labelledby="tableTitle">
