@@ -34,8 +34,14 @@ export default withStyles(styles)(class extends Component {
 			isOperatorAdmin: false
 		}
 	}
+/*
+	Replace UNSAFE_componentWillReceiveProps with:
 
-	componentWillReceiveProps({ user }) {
+	static getDerivedStateFromProps({ user }) {
+		return user || null;
+	}
+*/
+	componentWillReceiveProps ( { user }) {
 		this.setState({
 			...user
 		})
@@ -68,6 +74,7 @@ export default withStyles(styles)(class extends Component {
 			isLocationManager,
 			isOperatorAdmin, } = this.state
 			const { classes, user, handleToggle, onClose } = this.props
+			//console.log(this.state)
 		return <form>
 			<TextField
 				label="First Name"

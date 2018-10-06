@@ -16,6 +16,8 @@ const styles = {
 		height: 500,
 		overflowY: 'auto'
 	}
+
+
 	
 }
 
@@ -36,7 +38,7 @@ export default ( {
 	return (
 		<Grid container>
 		{console.log(editMode)}
-			<Grid item sm>
+			<Grid item xs={12} sm={6}>
 				<Paper style={styles.Paper}>
 		
 						<List component="ul">
@@ -45,8 +47,7 @@ export default ( {
 								<ListItem
 									key={listid}
 									button
-								
-									
+									divider
 								>
 									<ListItemText 
 										primary={[firstName, lastName].join(' ')}
