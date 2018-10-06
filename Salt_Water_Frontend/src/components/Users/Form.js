@@ -16,9 +16,9 @@ const styles = theme => ({
 })
 
 export default withStyles(styles)(class extends Component {
-	state = this.getInitState()
+	state = this.getInitialState()
 
-	getInitState() {
+	getInitialState() {
 		const { user } = this.props
 
 		return user ? user : {
@@ -48,25 +48,11 @@ export default withStyles(styles)(class extends Component {
 	}
 
 	handleSubmit = () => {
-		const { user } = this.state
 
 		// make a post request first and get the created _id back and add it into the state
 
-		this.props.onSubmit(user)
-		this.setState({
-			user: {
-				firstName: "",
-				lastName: "",
-				username: "",
-				password: "",
-				isActive: true,
-				isListAdmin: false,
-				isUserAdmin: false,
-				isEntryAdmin: false,
-				isLocationManager: false,
-				isOperatorAdmin: false,
-			}
-		})
+		this.props.onSubmit({...this.state})
+		this.setState(this.getInitialState())
 	}
 
 	render() {

@@ -68,7 +68,8 @@ export default class App extends Component {
 			users: [ 
 				...users.filter(u => u.listid !== user.listid),
 				user,
-			]
+			],
+			selectedUser: user,
 		}) )
 	}
 
