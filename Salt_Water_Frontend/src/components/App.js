@@ -33,8 +33,8 @@ export default class App extends Component {
 	}
 
 	postUser = async(user) => {
-		user.listid = 1999
-		console.log(delete user.id);
+		//user.id = "43987520349utoafoh"
+		console.table(user);
 		const settings = {
 			method: 'POST',
 			headers: {
@@ -43,18 +43,15 @@ export default class App extends Component {
 			},
 			body: JSON.stringify(user),
 		}
-		const res = await fetch(API_URL, settings)
-		const json = await res.text();
-		console.log(json);
+		//const res = await fetch(API_URL, settings)
+		//const json = await res.text();
+		//console.log(json);
 
 	}
 
 	patchUser = async (targetUser, updateUser) => {
-		
 		var diff = jsonpatch.compare(targetUser, updateUser)
 		console.log(diff)
-
-
 		const settings = {
 			method: 'PATCH',
 			headers: {
@@ -62,9 +59,9 @@ export default class App extends Component {
 			},
 			body: JSON.stringify(diff),
 		}
-		const res = await fetch(API_URL, settings)
-		const json = await res.json()
-		console.log(json);
+		//const res = await fetch(API_URL, settings)
+		//const json = await res.json()
+		//console.log(json);
 	}
 
 
@@ -75,7 +72,7 @@ export default class App extends Component {
 		}))
 	}
 
-	handleUserCreate = async(user) => {
+	handleUserCreate = user => {
 		console.log(user)
 		this.postUser(user)
 		user.listid = this.state.maxIndex + 1
