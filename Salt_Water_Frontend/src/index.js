@@ -4,13 +4,23 @@ import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, createMuiTheme} from '@material-ui/core'
+import {blueGrey, amber, deepPurple} from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
-	pallete: {
-		primary: '#3f51b5',
-		secondary: '#43a047',
+	palette: {
+		primary: blueGrey,
+		secondary: {
+			main: deepPurple[50],
+			light: amber[200],
+			dark: deepPurple[100]
+		},
+		type: "dark"
+	},
+	spacing: {
+		unit: 10
 	}
 });
+
 
 console.log(theme);
 

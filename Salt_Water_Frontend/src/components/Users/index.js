@@ -1,76 +1,88 @@
-import React, {Fragment} from 'react'
-import {Grid, Paper, Typography, IconButton } from '@material-ui/core'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import {Edit, Delete} from '@material-ui/icons'
-import ListItemSecondaryAction from '@material-ui/core/List'
+import React, { Fragment } from 'react'
+import {
+	Grid,
+	Paper,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemSecondaryAction,
+	IconButton
+} from '@material-ui/core'
+
+import { Delete } from '@material-ui/icons'
+
 import Form from './Form'
+import { withStyles } from '@material-ui/core/styles'
 
 
-const styles = {
-	Paper: {
-		padding: 20,
-		marginTop: 10,
-		marginBotton: 10,
-		height: 500,
-		overflowY: 'auto'
+
+
+const styles = theme => ({
+	paper: {
+		padding: theme.spacing.unit * 3,
+		overflowY: 'auto',
+		[theme.breakpoints.up('sm')]: {
+			marginTop: 5,
+			height: 'calc(100% - 10px)'
+		},
+		[theme.breakpoints.down('xs')]: {
+			height: '100%'
+		}
+	},
+	'@global': {
+		'html, body, #root': {
+			height: '100%'
+		}
+	},
+	container: {
+		[theme.breakpoints.up('sm')]: {
+			height: 'calc(100% - 64px - 48px)'
+		},
+		[theme.breakpoints.down('xs')]: {
+			height: 'calc(100% - 56px - 48px)'
+		}
+	},
+	item: {
+		[theme.breakpoints.down('xs')]: {
+			height: '50%'
+		}
 	}
+})
 
-
-	
-}
-
-export default ( {
-	users, onSelect, onDelete, selectedUser, editMode, onEdit, onSelectEdit, onCreate,
+export default withStyles(styles)(
+	({
+	users, onSelect, onDelete, selectedUser, editMode, onEdit, onSelectEdit, onCreate, classes,
 	selectedUser: {
-		firstName,
-		lastName,
-		username,
-		password,
-		isActive,
-		isListAdmin,
-		isUserAdmin,
-		isEntryAdmin,
-		isLocationManager,
-		isOperatorAdmin,
 		listid = -1,
 	}}) => {
 	return (
 		<Grid container>
-		{/* {console.log(selectedUser)} */}
 			<Grid item xs={12} sm={6}>
-				<Paper style={styles.Paper}>
-		
+				<Paper className={classes.paper}>
 						<List component="ul">
-							{users.map( ({listid, firstName, lastName})  =>
-							<Fragment>
-								<ListItem
-									key={listid}
-									button
-									divider
+							{users.map(( {listid, firstName, lastName})  =>
+							<ListItem
+								key={listid}
+								button
+								divider
+								onClick={() => onSelectEdit(listid)}
 								>
-									<ListItemText 
-										primary={[firstName, lastName].join(' ')}
-										onClick={() => onSelectEdit(listid)}
-										/>
+								<ListItemText primary={[firstName, lastName].join(' ')}/>
 									<ListItemSecondaryAction>
-										<IconButton  
-											onClick={() => onDelete(listid)}>
-											<Delete />
+									{selectedUser.listid === listid ?
+										<IconButton  style={{color: "#D50000"}} onClick={() => onDelete(listid)}>
+											<Delete/>
 										</IconButton>
+										:null}
 									</ListItemSecondaryAction>
-
 								</ListItem>
-
-							</Fragment>
-					)}
+							)}
 					</List>
 				</Paper>
 			</Grid>
 			<Grid item sm>
-				<Paper style={styles.Paper}>
+				<Paper className={classes.paper}>
 				
 					<Fragment>
 						<Typography
@@ -89,4 +101,4 @@ export default ( {
 			</Grid>
 		</Grid>
 	)
-}
+})

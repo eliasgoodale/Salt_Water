@@ -3,10 +3,11 @@ import { Header, Footer }  from './Layouts'
 import Users from './Users'
 import TableDemo from './Table_Demo'
 import jsonpatch from 'fast-json-patch';
+import { CssBaseline } from '@material-ui/core'
 
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5500/users' : 'production-url' 
 
-export default class App extends Component {
+export default class extends Component {
 	constructor(props) {
 		super(props)
 
@@ -121,6 +122,7 @@ export default class App extends Component {
 		//console.log(this.state);
 		return ( 
 		<Fragment>
+			<CssBaseline/>
 			<Header
 				onUserCreate={this.handleUserCreate}
 				onClickCreate={this.disableEditMode}

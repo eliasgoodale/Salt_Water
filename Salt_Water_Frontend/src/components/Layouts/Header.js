@@ -22,16 +22,14 @@ export default ({ onClickCreate }) => {
 		<div>
 			<AppBar position="static">
 				<Toolbar>
-					<IconButton  color="inherit" aria-label="Menu">
-						<MenuIcon />
-					</IconButton>
-					<Typography variant="headline" color="inherit" style={{flex: 1}} >
+					<Typography variant="headline" color="secondary" style={{flex: 1}} >
 						User Database
           </Typography>
 					<Button
 						variant="fab"
 						mini
 						onClick={onClickCreate}
+						color="secondary"
 					>
 						<Add />
 					</Button>
