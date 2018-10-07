@@ -1,20 +1,368 @@
+const users =  [
+	{
+		"id": "5bb92263279bc11a59f6ae1f",
+		"firstName": "Sosa",
+		"lastName": "Clark",
+		"username": "username31335411",
+		"password": 9644116310,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": true,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb9226369e2441320434dee",
+		"firstName": "Harmon",
+		"lastName": "Allison",
+		"username": "username85305693",
+		"password": 6773351990,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb9226391e5485121fe2b2a",
+		"firstName": "Gallagher",
+		"lastName": "Solis",
+		"username": "username82951781",
+		"password": 2840891740,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263ec2af95ef94f1635",
+		"firstName": "Sears",
+		"lastName": "Mcintyre",
+		"username": "username73975783",
+		"password": 8994806360,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263a374e9c5103afa59",
+		"firstName": "Jill",
+		"lastName": "Shelton",
+		"username": "username80214186",
+		"password": 4320377819,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": true,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263617072e78a62d321",
+		"firstName": "Moreno",
+		"lastName": "Alvarado",
+		"username": "username72038315",
+		"password": 4619059741,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263b8374e6f4594b024",
+		"firstName": "Mcgowan",
+		"lastName": "Blankenship",
+		"username": "username51930374",
+		"password": 2976795133,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263b588480e82b09994",
+		"firstName": "Chrystal",
+		"lastName": "Glass",
+		"username": "username65280898",
+		"password": 7170941349,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922633cb848014d5f0c3b",
+		"firstName": "Ross",
+		"lastName": "Castaneda",
+		"username": "username93469527",
+		"password": 1311435982,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922634037e47fe26fc47b",
+		"firstName": "Reyna",
+		"lastName": "Carey",
+		"username": "username45379710",
+		"password": 5614664752,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb922638ac54fd7fe7f085c",
+		"firstName": "Jensen",
+		"lastName": "Stein",
+		"username": "username64109114",
+		"password": 2467067393,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": false,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922634dd57fda61b4dcff",
+		"firstName": "Concepcion",
+		"lastName": "Mccarty",
+		"username": "username36965840",
+		"password": 2208351506,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb9226310a3f6aca41ddcd9",
+		"firstName": "Santos",
+		"lastName": "Chan",
+		"username": "username16388605",
+		"password": 9132934644,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": true,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb92263036b1946306f19df",
+		"firstName": "Billie",
+		"lastName": "Montoya",
+		"username": "username91589962",
+		"password": 9241341772,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922630e8be971b4c26064",
+		"firstName": "Whitney",
+		"lastName": "Flores",
+		"username": "username29581281",
+		"password": 9454809847,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb9226383bea95d7f656a45",
+		"firstName": "Rosanne",
+		"lastName": "Douglas",
+		"username": "username96156267",
+		"password": 6554531935,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": true,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb92263d570e5d24c804704",
+		"firstName": "Ingrid",
+		"lastName": "Marquez",
+		"username": "username52552669",
+		"password": 4479645596,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": false,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263d4d2afcf0a27e104",
+		"firstName": "Dunlap",
+		"lastName": "Strong",
+		"username": "username89834285",
+		"password": 6998109045,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263010da434d136db1b",
+		"firstName": "Marina",
+		"lastName": "Craig",
+		"username": "username52945392",
+		"password": 4579230968,
+		"isActive": false,
+		"isListAdmin": false,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb92263b0e52dbf8e2cff6e",
+		"firstName": "Rachelle",
+		"lastName": "William",
+		"username": "username40638931",
+		"password": 7664610915,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": false,
+		"isLocationManager": true,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922634a16c73319d7a945",
+		"firstName": "Anna",
+		"lastName": "Horton",
+		"username": "username47049710",
+		"password": 966585720,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263910534f5f3296a0b",
+		"firstName": "Burton",
+		"lastName": "Velasquez",
+		"username": "username82439275",
+		"password": 4880737173,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb9226380df447562ea8006",
+		"firstName": "Jarvis",
+		"lastName": "Sexton",
+		"username": "username804125",
+		"password": 8870432702,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": true,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263e94268018e278b43",
+		"firstName": "Ida",
+		"lastName": "Kirkland",
+		"username": "username15173565",
+		"password": 6234507000,
+		"isActive": false,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb9226384dc9cda0ce8a3c9",
+		"firstName": "Blake",
+		"lastName": "Summers",
+		"username": "username29770077",
+		"password": 5201303,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": true
+	},
+	{
+		"id": "5bb92263e6400b9e14ce7f5f",
+		"firstName": "Lela",
+		"lastName": "Riley",
+		"username": "username93280768",
+		"password": 2104171417,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": false,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"id": "5bb922634c58cbdec24a0937",
+		"firstName": "Gilliam",
+		"lastName": "Christensen",
+		"username": "username83134670",
+		"password": 362630300,
+		"isActive": true,
+		"isListAdmin": true,
+		"isUserAdmin": true,
+		"isEntryAdmin": true,
+		"isLocationManager": false,
+		"isOperatorAdmin": false
+	},
+	{
+		"firstName": "adsfadsf",
+		"lastName": "fasdfdsafasdf",
+		"username": "saddfasdfasdfasdfdsfasdfadsf",
+		"password": "adsfasdfasdfads",
+		"isActive": true,
+		"isListAdmin": false,
+		"isUserAdmin": false,
+		"isEntryAdmin": false,
+		"isLocationManager": false,
+		"isOperatorAdmin": false,
+		"id": "43987520349utoafoh"
+	}
+]
 
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api/v1/users' : 'production-url'
-
-const users = [];
-
-
-async function getUsers () {
-	let res = await fetch(API_URL)
-	let data = await res.json()
-	return data
-}
-
-getUsers()
-	.then(data => users = data)
-	.catch(reason => console.log(reason.message))
-
-export {
-	users
-}
-
+export default users

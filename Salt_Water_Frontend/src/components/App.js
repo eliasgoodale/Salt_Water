@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import { Header, Footer }  from './Layouts'
 import Users from './Users'
+import TableDemo from './Table_Demo'
 import jsonpatch from 'fast-json-patch';
 
 const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5500/users' : 'production-url' 
@@ -135,6 +136,16 @@ export default class App extends Component {
 				editMode={editMode}
 				onCreate={this.handleUserCreate}
 				/>
+				{/* <TableDemo
+					onDelete={this.handleUserDelete}
+					selectedUser={selectedUser}
+					users={users}
+					//onSelect={this.handleUserSelect}
+					onSelectEdit={this.handleUserSelectEdit}
+					onEdit={this.handleUserEdit}
+					editMode={editMode}
+					onCreate={this.handleUserCreate}
+				/> */}
 			<Footer/>
 		</Fragment>
 		)

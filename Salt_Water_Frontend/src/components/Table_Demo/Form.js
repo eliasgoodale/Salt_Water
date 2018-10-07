@@ -100,7 +100,6 @@ export default withStyles(styles)(class extends Component {
 				color="primary"
 				variant="raised"
 				onClick={this.handleSubmit}
-				//disabled={!formIsValid}
 			>
 				{user ? 'Save' : 'Create'}
 			</Button>

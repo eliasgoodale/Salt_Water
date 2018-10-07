@@ -1,13 +1,13 @@
-import React, {Fragment} from 'react'
-import {Grid, Paper, Typography, IconButton } from '@material-ui/core'
+import React, { Fragment } from 'react'
+import { Grid, Paper, Typography, IconButton } from '@material-ui/core'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Edit, Delete} from '@material-ui/icons'
+import { Edit, Delete } from '@material-ui/icons'
 import ListItemSecondaryAction from '@material-ui/core/List'
 import Form from './Form'
-
+import UserTableDemo from '../Table_Demo/UserTableDemo'
 
 const styles = {
 	Paper: {
@@ -19,10 +19,10 @@ const styles = {
 	}
 
 
-	
+
 }
 
-export default ( {
+export default ({
 	users, onSelect, onDelete, selectedUser, editMode, onEdit, onSelectEdit, onCreate,
 	selectedUser: {
 		firstName,
@@ -36,55 +36,31 @@ export default ( {
 		isLocationManager,
 		isOperatorAdmin,
 		listid = -1,
-	}}) => {
+	} }) => {
 	return (
-		<Grid container>
-		{/* {console.log(selectedUser)} */}
-			<Grid item xs={12} sm={6}>
+		<Grid container direction='column'>
+			{/* {console.log(selectedUser)} */}
+			<Grid item xl>
 				<Paper style={styles.Paper}>
-		
-						<List component="ul">
-							{users.map( ({listid, firstName, lastName})  =>
-							<Fragment>
-								<ListItem
-									key={listid}
-									button
-									divider
-								>
-									<ListItemText 
-										primary={[firstName, lastName].join(' ')}
-										onClick={() => onSelectEdit(listid)}
-										/>
-									<ListItemSecondaryAction>
-										<IconButton  
-											onClick={() => onDelete(listid)}>
-											<Delete />
-										</IconButton>
-									</ListItemSecondaryAction>
-
-								</ListItem>
-
-							</Fragment>
-					)}
-					</List>
+					<UserTableDemo />
 				</Paper>
 			</Grid>
 			<Grid item sm>
 				<Paper style={styles.Paper}>
-				
+
 					<Fragment>
 						<Typography
 							variant="title"
 						>
 							{editMode ? "Edit User" : "Create User"}
-					</Typography>
+						</Typography>
 						<Form
 							key={listid}
 							onSubmit={editMode ? onEdit : onCreate}
-							user={listid == -1 ? null : selectedUser }
+							user={listid == -1 ? null : selectedUser}
 						/>
-					</Fragment> 
-					
+					</Fragment>
+
 				</Paper>
 			</Grid>
 		</Grid>
