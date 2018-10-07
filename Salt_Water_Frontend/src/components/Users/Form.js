@@ -16,6 +16,7 @@ const styles = theme => ({
 })
 
 export default withStyles(styles)(class extends Component {
+
 	state = this.getInitialState()
 
 	getInitialState() {
@@ -33,18 +34,6 @@ export default withStyles(styles)(class extends Component {
 			isLocationManager: false,
 			isOperatorAdmin: false
 		}
-	}
-/*
-	Replace UNSAFE_componentWillReceiveProps with:
-
-	static getDerivedStateFromProps({ user }) {
-		return user || null;
-	}
-*/
-	componentWillReceiveProps ( { user }) {
-		this.setState({
-			...user
-		})
 	}
 
 	handleInput = name => ({ target: {value} }) => {
@@ -74,10 +63,10 @@ export default withStyles(styles)(class extends Component {
 			isLocationManager,
 			isOperatorAdmin, } = this.state
 			const { classes, user, handleToggle, onClose } = this.props
-			//console.log(this.state)
+			console.table(user)
 		return <form>
 			<TextField
-				label="First Name"
+				label= {"First Name"}
 				value={firstName}
 				onChange={this.handleInput('firstName')}
 				margin="normal"

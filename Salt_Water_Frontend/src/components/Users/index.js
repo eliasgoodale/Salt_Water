@@ -8,6 +8,7 @@ import {Edit, Delete} from '@material-ui/icons'
 import ListItemSecondaryAction from '@material-ui/core/List'
 import Form from './Form'
 
+
 const styles = {
 	Paper: {
 		padding: 20,
@@ -22,7 +23,7 @@ const styles = {
 }
 
 export default ( {
-	users, onSelect, onDelete, selectedUser, editMode, onEdit, onSelectEdit,
+	users, onSelect, onDelete, selectedUser, editMode, onEdit, onSelectEdit, onCreate,
 	selectedUser: {
 		firstName,
 		lastName,
@@ -34,10 +35,11 @@ export default ( {
 		isEntryAdmin,
 		isLocationManager,
 		isOperatorAdmin,
+		listid,
 	}}) => {
 	return (
 		<Grid container>
-		{console.log(editMode)}
+		{/* {console.log(selectedUser)} */}
 			<Grid item xs={12} sm={6}>
 				<Paper style={styles.Paper}>
 		
@@ -68,24 +70,20 @@ export default ( {
 			</Grid>
 			<Grid item sm>
 				<Paper style={styles.Paper}>
-				{editMode ?
-				<Form
-					onSubmit={onEdit}
-					user={selectedUser}
-				/> :
-				<Fragment>
-					<Typography
-						variant="display1"
-					>
-						Welcome!
-				</Typography>
-					<Typography
-						variant="subheading"
-						style={{ marginTop: 20 }}
-					>
-						Please select a user to edit, or add a new user.
-				</Typography>
-				</Fragment>}
+				
+					<Fragment>
+						<Typography
+							variant="title"
+						>
+							{editMode ? "Edit User" : "Create User"}
+					</Typography>
+						<Form
+							key={listid}
+							onSubmit={editMode ? onEdit : onCreate}
+							user={selectedUser}
+							setLabel={!editMode}	
+						/>
+					</Fragment> 
 					
 				</Paper>
 			</Grid>

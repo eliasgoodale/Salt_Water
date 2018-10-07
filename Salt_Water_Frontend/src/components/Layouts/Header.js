@@ -2,7 +2,7 @@ import React from 'react'
 
 import {AppBar, Toolbar, Typography, Button, IconButton} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Dialog from '../Users/Dialog'
+import { Add } from '@material-ui/icons';
 const styles = {
 	root: {
 		flexGrow: 1,
@@ -16,7 +16,7 @@ const styles = {
 	},
 };
 
-export default ({ onUserCreate }) => {
+export default ({ onClickCreate }) => {
 
 	return (
 		<div>
@@ -28,9 +28,13 @@ export default ({ onUserCreate }) => {
 					<Typography variant="headline" color="inherit" style={{flex: 1}} >
 						User Database
           </Typography>
-					<Dialog 
-						onCreate = {onUserCreate}
-					/>
+					<Button
+						variant="fab"
+						mini
+						onClick={onClickCreate}
+					>
+						<Add />
+					</Button>
 			</Toolbar>
 			</AppBar>
 		</div>

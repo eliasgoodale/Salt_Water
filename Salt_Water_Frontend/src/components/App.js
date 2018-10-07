@@ -13,6 +13,7 @@ export default class App extends Component {
 			users: [],
 			selectedUser: {},
 			maxIndex: -1,
+			editMode: false,
 		}
 		this.getUsers = this.getUsers.bind(this);
 	}
@@ -109,6 +110,12 @@ export default class App extends Component {
 		}) )
 	}
 
+	disableEditMode = () => 
+		this.setState({
+			editMode: false,
+			selectedUser: {},
+		})
+
 	render(){
 		const { users, selectedUser, editMode } = this.state
 		//console.log(this.state);
@@ -116,6 +123,7 @@ export default class App extends Component {
 		<Fragment>
 			<Header
 				onUserCreate={this.handleUserCreate}
+				onClickCreate={this.disableEditMode}
 			/>
 			<Users
 				onDelete={this.handleUserDelete}
@@ -125,7 +133,7 @@ export default class App extends Component {
 				onSelectEdit={this.handleUserSelectEdit}
 				onEdit={this.handleUserEdit}
 				editMode={editMode}
-				
+				onCreate={this.handleUserCreate}
 				/>
 			<Footer/>
 		</Fragment>

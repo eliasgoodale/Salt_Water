@@ -29,7 +29,6 @@ const blankData = {
 export default class UserForm extends Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			formData: this.props.formData,
 			sendingForm: false,
