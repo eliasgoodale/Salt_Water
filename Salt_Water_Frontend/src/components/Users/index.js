@@ -35,7 +35,7 @@ export default ( {
 		isEntryAdmin,
 		isLocationManager,
 		isOperatorAdmin,
-		listid,
+		listid = -1,
 	}}) => {
 	return (
 		<Grid container>
@@ -80,8 +80,7 @@ export default ( {
 						<Form
 							key={listid}
 							onSubmit={editMode ? onEdit : onCreate}
-							user={selectedUser}
-							setLabel={!editMode}	
+							user={listid == -1 ? null : selectedUser }
 						/>
 					</Fragment> 
 					

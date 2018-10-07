@@ -47,7 +47,7 @@ export default withStyles(styles)(class extends Component {
 		// make a post request first and get the created _id back and add it into the state
 
 		this.props.onSubmit({...this.state})
-		this.setState(this.getInitialState())
+	
 	}
 
 	render() {
@@ -62,7 +62,7 @@ export default withStyles(styles)(class extends Component {
 			isEntryAdmin,
 			isLocationManager,
 			isOperatorAdmin, } = this.state
-			const { classes, user, handleToggle, onClose } = this.props
+			const { classes, user, onClose } = this.props
 			console.table(user)
 		return <form>
 			<TextField
