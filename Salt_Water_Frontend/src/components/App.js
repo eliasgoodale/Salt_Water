@@ -24,13 +24,12 @@ export default class App extends Component {
 	}
 
 	getUsers = async() => {
-		let res = await fetch(API_URL)
-		let data = await res.json()
-		let listid = this.state.maxIndex
-		data = data.map(user => user = { ...user, listid: ++listid })
+		let data = await (await fetch(API_URL)).json()
+		let i = this.state.maxIndex
+		data = data.map(user => user = { ...user, listid: ++i })
 		this.setState({
 			users: data,
-			maxIndex: listid,
+			maxIndex: i,
 		})
 	}
 
