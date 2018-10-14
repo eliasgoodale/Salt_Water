@@ -7,7 +7,7 @@ const API_URL: string = "http://localhost:5500/users"
 
 /* Generates a 12 digit hexadecimal string */
 function generateID(): string {
-  let newID: string = Math.random().toString(16).substring(3)
+  const newID: string = Math.random().toString(16).substring(3)
   return newID
 }
 
@@ -26,8 +26,9 @@ interface IUser {
 }
 
 interface IState {
-  userData: IUser[]
   editID: string | null
+  userData: IUser[]
+  
 }
 
 
@@ -37,8 +38,9 @@ class App extends Component<{}, IState>{
   constructor(props: any) {
     super(props)
     this.state = {
-      userData: [],
       editID: null,
+      userData: [],
+      
     }
   }
 
@@ -69,10 +71,14 @@ class App extends Component<{}, IState>{
               <button 
                 title="Add new" 
                 className="k-button k-primary" 
-                onClick={this.addUser}>
+                onClick={this.addUser}
+              >
+              Add User
               </button>
             </div>
           </GridToolbar>
+          <Column field="firstName" title="First Name" width="200px" />
+          <Column field="lastName" title="Last Name" width="200px" />
         </Grid>
       </Fragment>
     );
@@ -84,6 +90,8 @@ class App extends Component<{}, IState>{
     const data: any = await request.json()
     return data
   }
+
+  /* All of these methods need to be refactored to use specific event types */
 
   private rowClick = (e: any): void => {
     this.setState({
@@ -119,16 +127,16 @@ class App extends Component<{}, IState>{
   */
 
   private addUser = async(): Promise<void> => {
-    
     const newUser: any = { id: generateID() }
     const data = this.state.userData.slice()
 
     data.unshift(newUser)
     this.setState({
+      editID: newUser.id,
       userData: data,
-      editID: newUser.id
-    })
 
+    })
+    /* Have a method that prevents submission until all fields are filled with valid values */
   } 
   
 }
