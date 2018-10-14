@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    /* Base directory to resolve non-relative module names */
+    "baseUrl": ".",
+    /* Directory where output structure is redirected */
+    "outDir": "build/dist",
+    /* Specifies module code generation */
+    "module": "esnext",
+    /* Specifies ECMAScript Target version */
+    "target": "es5",
+    /* List of library files to be included in the compilation */
+    "lib": ["es6", "dom"],
+    /* Generates .js.map file */
+    "sourceMap": true,
+    /* Allows compilation of .js files */
+    "allowJs": true,
+    /* Support JSX in .tsx files */
+    "jsx": "react",
+    /* Classic or node lookup strategy https://www.typescriptlang.org/docs/handbook/module-resolution.html */
+    "moduleResolution": "node",
+    /* Specifies root dir of input files, controls the output directory structure of "outDir" */
+    "rootDir": "src",
+    /* Disallow inconsistently cased references to the same file ./File and ./file is illegal */
+    "forceConsistentCasingInFileNames": true,
+    /* Reports an error when not all code paths in a function return a value */
+    "noImplicitReturns": true,
+    /* 
+    You may not make functions that return functions referencing this. (using arrow functions solves this 
+    problem)
+    */
+    "noImplicitThis": true,
+    /* You will get an error from any declarations with an implied any type */
+    "noImplicitAny": true,
+    /* Import emit helpers (__extends, __rest, etc) */
+    "importHelpers": true,
+    /* Takes null and undefined out of the domain of other tyes. Makes them only assignable to themselves and any. */
+    "strictNullChecks": true,
+    /* 
+      Allows for suppression of implicit any errors when using bracket notation
+      https://github.com/Microsoft/TypeScript/issues/1232#issuecomment-64510362
+    */
+    "suppressImplicitAnyIndexErrors": true,
+    /* Error when local variables are unused */
+    "noUnusedLocals": true,
+    /* Allows traditional jsx import syntax*/
+    "allowSyntheticDefaultImports": true,
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ]
+}

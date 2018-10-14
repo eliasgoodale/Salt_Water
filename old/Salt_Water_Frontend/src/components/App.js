@@ -127,7 +127,7 @@ export default class extends Component {
 				onUserCreate={this.handleUserCreate}
 				onClickCreate={this.disableEditMode}
 			/>
-			<Users
+			{/* <Users
 				onDelete={this.handleUserDelete}
 				selectedUser={selectedUser}
 				users={users}
@@ -136,8 +136,8 @@ export default class extends Component {
 				onEdit={this.handleUserEdit}
 				editMode={editMode}
 				onCreate={this.handleUserCreate}
-				/>
-				{/* <TableDemo
+				/> */}
+				<TableDemo
 					onDelete={this.handleUserDelete}
 					selectedUser={selectedUser}
 					users={users}
@@ -146,7 +146,7 @@ export default class extends Component {
 					onEdit={this.handleUserEdit}
 					editMode={editMode}
 					onCreate={this.handleUserCreate}
-				/> */}
+				/>
 			<Footer/>
 		</Fragment>
 		)

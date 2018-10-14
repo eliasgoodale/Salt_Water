@@ -8,7 +8,7 @@ import {blueGrey, amber, deepPurple} from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
 	palette: {
-		primary: blueGrey,
+		primary: deepPurple,
 		secondary: {
 			main: deepPurple[50],
 			light: amber[200],
