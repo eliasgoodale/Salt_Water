@@ -2,7 +2,9 @@
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "object-literal-sort-keys": false,
-    "no-console": false
+    "no-console": false,
+    "jsx-no-lambda": false,
+    "no-debugger": false
   },
   "jsRules": {
     "no-console": false

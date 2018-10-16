@@ -1,29 +1,30 @@
-import * as React from 'react'
-import { GridCell } from '@progress/kendo-react-grid'
+import { GridCell } from '@progress/kendo-react-grid';
+import * as React from 'react';
 
-/* Add password change modal. Add remove functionality */
-
-
-export default function CommandCell(remove: any, changePassword: any, editID: string) {
+export default function cellWithEditing(togglePasswordModal: any, reactivateUser: any) {
 	return class extends GridCell {
-		render() {
+		public render() {
+			const { dataItem } = this.props
 			return (
+				dataItem.isActive && dataItem.inEdit ? 
 				<td>
 					<button
-						className="k-primary k-button k-grid-remove-command"
-						onClick={ (e: any) => remove(editID) }
-
-					>
-					Remove
-					</button>
-					<button
-						className="k-button k-grid-edit-command"
-						onClick={(e: any) => changePassword(editID) }
+						className="k-primary k-button k-grid-edit-command"
+						onClick={togglePasswordModal}
 					>
 						Change Password
+          </button>
+				</td> : 
+				!dataItem.isActive && dataItem.inEdit ?
+				<td>
+					<button
+							className="k-primary k-button k-grid-edit-command"
+							onClick={reactivateUser}
+					>
+						Reactivate User
 					</button>
-				</td>
-			)
+				</td>: <td/>
+			);
 		}
-	}
+	};
 }
