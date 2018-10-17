@@ -3,9 +3,11 @@ import { Component, Fragment } from 'react'
 import * as React from 'react'
 
 /* Kendo */
+import { orderBy } from '@progress/kendo-data-query'
 import { Dialog, DialogActionsBar } from '@progress/kendo-react-dialogs'
 import { Grid, GridColumn as Column, GridToolbar } from '@progress/kendo-react-grid'
 import { Input } from '@progress/kendo-react-inputs';
+
 import '@progress/kendo-theme-default/dist/all.css'
 
 /* Helper */
@@ -15,8 +17,30 @@ import * as Joi from 'joi'
 /* Component */
 import CommandCell from './CommandCell'
 
-const API_URL: string = "http://localhost:5500/users"
 
+// class BooleanCell extends Component<any, any> {
+ 
+//   public render() {
+//     console.log(this.props)
+//     const { colors, dataItem, field } = this.props
+//     const value = dataItem[field];
+//     return (
+//       dataItem.inEdit ?
+//       <td>
+//         <input  type="checkbox" checked={value} />
+//       </td>
+//       :
+//       <td style={{ color: value ? colors.t : colors.f }}> 
+//       {value ? 'Yes' : 'No'}
+//       </td> 
+
+//     );
+//   }
+// }
+
+
+
+const API_URL: string = "http://localhost:5500/users"
 
 /* Generates a 12 digit hexadecimal string */
 function generateID(): string {
@@ -60,7 +84,8 @@ interface IState {
   passwordModalOpen: boolean
   showInactive: boolean
   removeAlertOpen: boolean
-  lockEdit: boolean 
+  lockEdit: boolean
+  sort: any 
 }
 
 const schema: any = Joi.object().keys({
@@ -93,6 +118,7 @@ class App extends Component<{}, IState>{
       showInactive: false,
       removeAlertOpen: false,
       lockEdit: false,
+      sort: [{field: 'username', dir: 'asc'}]
     }
   }
 
@@ -106,7 +132,7 @@ class App extends Component<{}, IState>{
   }
 
   public render() {
-    const { tableData, editID, showInactive } = this.state
+    const { tableData, editID, showInactive, lockEdit } = this.state
     const filterData = showInactive ? 
     tableData.filter( (u: any) => !u.isActive ) :
     tableData.filter( (u: any) => u.isActive )
@@ -114,16 +140,24 @@ class App extends Component<{}, IState>{
     return (
       <Fragment>
         <Grid
+          
           style={{ height: '500px'}}
-          data={ filterData.map((user: IUser) =>
+          data={ orderBy( filterData.map((user: IUser) =>
             Object.assign({
               inEdit: user.id === editID
-            }, user)
-          )}
+            }, user)), this.state.sort)
+          }
           editField="inEdit"
           onRowClick={this.rowClick}
           onItemChange={this.itemChange}
-          
+          sortable={true}
+          sort={this.state.sort}
+          onSortChange={(e) => {
+            this.setState({
+              sort: e.sort
+            })
+          }}
+
         >
 
           <GridToolbar>
@@ -149,9 +183,9 @@ class App extends Component<{}, IState>{
               <button
                 className="k-primary k-button k-grid-remove-command"
                 onClick={this.toggleRemoveAlert}
-                disabled={editID === null}
+                disabled={!editID || lockEdit}
               >
-                Remove
+                Delete
 					    </button>
 
               <button
@@ -163,18 +197,17 @@ class App extends Component<{}, IState>{
               </button>
             </div>
           </GridToolbar>
-
+          <Column field="username" title="Username" width="200px" />
           <Column field="firstName" title="First Name" width="200px" />
           <Column field="lastName" title="Last Name" width="200px" />
-          <Column field="username" title="Username" width="200px" />
           <Column field="isEntryAdmin" title="Entry Admin" editor="boolean" />
           <Column field="isListAdmin" title="List Admin" editor="boolean" />
           <Column field="isLocationManager" title="Location Manager" editor="boolean" />
           <Column field="isOperatorAdmin" title="Operator Admin" editor="boolean" />
           <Column field="isUserAdmin" title="User Admin" editor="boolean" />
           <Column
-            title=" "
             cell={CommandCell(this.togglePasswordModal, this.reactivateUser)}
+            width="150px"
           />
         </Grid>
         {this.state.passwordModalOpen && <Dialog
@@ -215,7 +248,7 @@ class App extends Component<{}, IState>{
             onClose={this.toggleRemoveAlert}
             >
             <label>
-              Are you sure you want to remove this user? <br/>
+              Are you sure you want to delete this user? <br/>
             </label>
           <DialogActionsBar>
             <button
@@ -313,13 +346,14 @@ class App extends Component<{}, IState>{
     //   },
     //   body: JSON.stringify(diff)
     // }
-    // const response: any = await fetch(`${API_URL}/${targetUser.id}`)
+    // const response: any = await fetch(`${API_URL}/${originalUser.id}`)
     // const json: any = await response.json()
     
   }
 
   private postUser = async(newUser: IUser): Promise<void> => {
    console.log(`POST payload:\n`)
+   delete newUser.id
    console.table(newUser)
    
     // const settings: any = {
@@ -434,7 +468,7 @@ class App extends Component<{}, IState>{
     const newUserData = this.state.userData.slice()
     const userIndex = newUserData.findIndex((u: any) => u.id === saveData.id)
     const tableIndex: number = newTableData.findIndex((u: any) => u.id === saveData.id)
-    console.log(newTableData[tableIndex].id)
+  
     if (saveData.id === "temp") {
       this.postUser(saveData)
       newTableData[tableIndex].id = generateID() // Watch for post return json

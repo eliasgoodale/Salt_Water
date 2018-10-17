@@ -12,7 +12,7 @@ export default function cellWithEditing(togglePasswordModal: any, reactivateUser
 						className="k-primary k-button k-grid-edit-command"
 						onClick={togglePasswordModal}
 					>
-						Change Password
+						{dataItem.id === 'temp' ? 'Enter' : "Change"} Password
           </button>
 				</td> : 
 				!dataItem.isActive && dataItem.inEdit ?
