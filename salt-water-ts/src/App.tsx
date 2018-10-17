@@ -18,14 +18,11 @@ import * as Joi from 'joi'
 import CommandCell from './CommandCell'
 
 
-class CheckboxCell extends Component<any, any> {
+class CheckboxCell extends Component<any, {}> {
  
   public render() {
-    console.log(this.props)
     const { dataItem, field, onChange } = this.props
     const value = dataItem[field];
-    
-    console.log(this.props.onChange)
     return (
       dataItem.inEdit ? 
       <td>
