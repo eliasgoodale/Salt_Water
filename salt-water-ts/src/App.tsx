@@ -18,26 +18,39 @@ import * as Joi from 'joi'
 import CommandCell from './CommandCell'
 
 
-
-// class BooleanCell extends Component<any, any> {
+class CheckboxCell extends Component<any, any> {
  
-//   public render() {
-//     console.log(this.props)
-//     const { colors, dataItem, field } = this.props
-//     const value = dataItem[field];
-//     return (
-//       dataItem.inEdit ?
-//       <td>
-//         <input  type="checkbox" checked={value} />
-//       </td>
-//       :
-//       <td style={{ color: value ? colors.t : colors.f }}> 
-//       {value ? 'Yes' : 'No'}
-//       </td> 
+  public render() {
+    console.log(this.props)
+    const { dataItem, field, onChange } = this.props
+    const value = dataItem[field];
+    
+    console.log(this.props.onChange)
+    return (
+      dataItem.inEdit ? 
+      <td>
+  
+         <input type="checkbox" id={field} className="k-checkbox"  checked={value} 
+            onChange={(e: any) => {
+              e.dataItem = dataItem
+              e.field = field
+              e.value = !value
+              onChange(e)
+            }}
+          />
+          <label className="k-checkbox-label" htmlFor={field}/>
+           
+      </td> :
+      value ?
+            <td>
+            <input type="checkbox" id={field} className="k-checkbox" checked={value}/>
+            <label className="k-checkbox-label"/>
+            </td>
+       : <td/>
 
-//     );
-//   }
-// }
+    );
+  }
+}
 
 
 
@@ -205,11 +218,16 @@ class App extends Component<{}, IState>{
           <Column field="username" title="Username" width="200px" />
           <Column field="firstName" title="First Name" width="200px" />
           <Column field="lastName" title="Last Name" width="200px" />
-          <Column field="isEntryAdmin" title="Entry Admin" editor="boolean" />
-          <Column field="isListAdmin" title="List Admin" editor="boolean" />
-          <Column field="isLocationManager" title="Location Manager" editor="boolean" />
-          <Column field="isOperatorAdmin" title="Operator Admin" editor="boolean" />
-          <Column field="isUserAdmin" title="User Admin" editor="boolean" />
+          <Column field="isEntryAdmin" title="Entry Admin" editor="boolean" 
+            cell={(props) => <CheckboxCell {...props} />} />
+          <Column field="isListAdmin" title="List Admin" editor="boolean" 
+            cell={(props) => <CheckboxCell {...props} />}/>
+          <Column field="isLocationManager" title="Location Manager" editor="boolean" 
+            cell={(props) => <CheckboxCell {...props} />}/>
+          <Column field="isOperatorAdmin" title="Operator Admin" editor="boolean" 
+            cell={(props) => <CheckboxCell {...props} />}/>
+          <Column field="isUserAdmin" title="User Admin" editor="boolean" 
+            cell={(props) => <CheckboxCell {...props} />}/>
           <Column
             cell={CommandCell(this.togglePasswordModal, this.reactivateUser)}
             width="150px"
@@ -327,6 +345,7 @@ class App extends Component<{}, IState>{
   }
 
   private userChange = (e: any): void => {
+    console.log("called")
     const editData: any = this.state.tableData.slice()
     const index: number = editData.findIndex((u: any) => u.id === e.dataItem.id)
            
@@ -347,17 +366,11 @@ class App extends Component<{}, IState>{
     })
   }
 
-  // private onPasswordInputChange = (e: any) => {
-  //   const target: any = e.target;
-  //   const value: any = target.value
-  //   const name: any = target.props ? target.props.name : target.name;
-
-  //   const edited: any = this.clone(this.state.userInEdit);
-  //   edited[name] = value;
+  // private toggleCheckbox = (field: string): void => {
   //   this.setState({
-  //     userInEdit: edited
-  //   });
-  // }
+      
+  //   })
+  // } 
 
   private clearPassword = (): void => {
     this.setState({
@@ -468,7 +481,6 @@ class App extends Component<{}, IState>{
     const { tableData } = this.state
     const index: number = tableData.findIndex( (u: any) => u.id === e.dataItem.id)
     const selectedUser: any = tableData[index]
-    console.log(selectedUser)
     if (this.state.editID !== null) {
       this.cancel()
     }
