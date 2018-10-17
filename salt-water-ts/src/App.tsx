@@ -18,6 +18,7 @@ import * as Joi from 'joi'
 import CommandCell from './CommandCell'
 
 
+
 // class BooleanCell extends Component<any, any> {
  
 //   public render() {
@@ -85,7 +86,9 @@ interface IState {
   showInactive: boolean
   removeAlertOpen: boolean
   lockEdit: boolean
-  sort: any 
+  sort: any
+  newPassword: any
+  confirmPassword: any
 }
 
 const schema: any = Joi.object().keys({
@@ -118,7 +121,9 @@ class App extends Component<{}, IState>{
       showInactive: false,
       removeAlertOpen: false,
       lockEdit: false,
-      sort: [{field: 'username', dir: 'asc'}]
+      sort: [{field: 'username', dir: 'asc'}],
+      newPassword: "",
+      confirmPassword: "",
     }
   }
 
@@ -126,8 +131,8 @@ class App extends Component<{}, IState>{
     const localData: IUser[] = await this.getUsers()
 
     this.setState({
-      tableData: localData,
-      userData: localData,
+      tableData: localData.slice(),
+      userData: localData.slice(),
     })
   }
 
@@ -149,7 +154,7 @@ class App extends Component<{}, IState>{
           }
           editField="inEdit"
           onRowClick={this.rowClick}
-          onItemChange={this.itemChange}
+          onItemChange={this.userChange}
           sortable={true}
           sort={this.state.sort}
           onSortChange={(e) => {
@@ -216,31 +221,47 @@ class App extends Component<{}, IState>{
         >
           <form >
             <div style={{ marginBottom: '1rem' }}>
+
               <label>
                 New Password<br />
                 <Input
                   type="text"
-                  name="password"
-                  value={this.state.userInEdit.password || ''}
-                  onChange={this.onPasswordInputChange}
+                  name="newPassword"
+                  value={this.state.newPassword}
+                  onChange={this.handlePasswordInput}
+
                 />
               </label>
+                <br/>
+                <label>
+                  Confirm Password <br />
+                  <Input
+                    type="text"
+                    name="confirmPassword"
+                    value={this.state.confirmPassword}
+                    onChange={this.handlePasswordInput}
+                  />
+              </label>
+
             </div>
           </form>
+
           <DialogActionsBar>
             <button
               className="k-button"
               onClick={this.cancel}
             >
               Cancel
-                        </button>
+            </button>
             <button
               className="k-button k-primary"
-              onClick={this.save}
+              onClick={this.savePassword}
+              disabled={!this.passwordValid()}
             >
               Save
             </button>
           </DialogActionsBar>
+
           </Dialog>}
           
           {this.state.removeAlertOpen && <Dialog
@@ -276,6 +297,46 @@ class App extends Component<{}, IState>{
     );
   }
 
+  private handlePasswordInput = (e: any): void => {
+    const name: any = e.target.name
+    const value: string = e.target.value
+    if (name === 'newPassword') {
+      this.setState({ newPassword: value })
+    } else if(name === 'confirmPassword') {
+        this.setState({ confirmPassword: value })
+    }
+  }
+
+  private passwordValid = (): boolean => {
+    const { newPassword, confirmPassword } = this.state
+    const passwordSchema: any = Joi.string().min(6).max(25)
+    if(newPassword === confirmPassword) {
+      const result: any = Joi.validate(confirmPassword, passwordSchema)
+      return !result.error ? true : false
+    }
+    return false
+  }
+  private savePassword = (): void => {
+    const newTableData: any = this.state.tableData.slice()
+    const index: number = newTableData.findIndex( (u: any) => u.id === this.state.editID)
+    newTableData[index] = {...newTableData[index], password: this.state.confirmPassword}
+    this.togglePasswordModal()
+    this.setState({
+      tableData: newTableData
+    })
+  }
+
+  private userChange = (e: any): void => {
+    const editData: any = this.state.tableData.slice()
+    const index: number = editData.findIndex((u: any) => u.id === e.dataItem.id)
+           
+    editData[index] = { ...editData[index], [e.field]: e.value }
+    this.setState({
+      tableData: editData,
+      userInEdit: editData[index]
+    })
+  }
+
   private reactivateUser = (): void => {
     const newTableData = this.state.tableData.slice()
     const index: number = newTableData.findIndex( (u: any) => u.id === this.state.editID)
@@ -286,23 +347,22 @@ class App extends Component<{}, IState>{
     })
   }
 
-  private onPasswordInputChange = (e: any) => {
-    const target: any = e.target;
-    const value: any = target.value
-    const name: any = target.props ? target.props.name : target.name;
+  // private onPasswordInputChange = (e: any) => {
+  //   const target: any = e.target;
+  //   const value: any = target.value
+  //   const name: any = target.props ? target.props.name : target.name;
 
-    const edited: any = this.clone(this.state.userInEdit);
-    edited[name] = value;
-    this.setState({
-      userInEdit: edited
-    });
-  }
+  //   const edited: any = this.clone(this.state.userInEdit);
+  //   edited[name] = value;
+  //   this.setState({
+  //     userInEdit: edited
+  //   });
+  // }
 
   private clearPassword = (): void => {
-    const cleared: any = this.clone(this.state.userInEdit)
-    cleared.password = ""
     this.setState({
-      userInEdit: cleared
+      newPassword: "",
+      confirmPassword: ""
     }) 
   }
 
@@ -446,38 +506,24 @@ class App extends Component<{}, IState>{
     return Object.assign({}, data)  
   } 
 
-  private itemChange = (e: any): void => {
-    const editData: any = this.state.tableData.slice()
-    const index: number = editData.findIndex((u: any) => u.id === e.dataItem.id)
 
-    editData[index] = { ...editData[index], [e.field]: e.value }
-    this.setState({
-      tableData: editData,
-      userInEdit: editData[index]
-    })
-  }
 
 
 
   private save = (): void => {
-    if (this.state.passwordModalOpen) {
-      this.togglePasswordModal()
-    }
-    const saveData = this.clone(this.state.userInEdit)
+    const {editID} = this.state
     const newTableData = this.state.tableData.slice()
     const newUserData = this.state.userData.slice()
-    const userIndex = newUserData.findIndex((u: any) => u.id === saveData.id)
-    const tableIndex: number = newTableData.findIndex((u: any) => u.id === saveData.id)
+    const userIndex = newUserData.findIndex((u: any) => u.id === editID)
+    const tableIndex: number = newTableData.findIndex((u: any) => u.id === editID)
   
-    if (saveData.id === "temp") {
-      this.postUser(saveData)
+    if (editID === "temp") {
+      this.postUser(newTableData[tableIndex])
       newTableData[tableIndex].id = generateID() // Watch for post return json
       newUserData.unshift(newTableData[tableIndex])
     } else {
-      this.patchUser(newUserData[userIndex], saveData)
-      newTableData[tableIndex] = saveData
-      newUserData[userIndex] = saveData
-
+      this.patchUser(newTableData[tableIndex], newUserData[userIndex])
+      newUserData[userIndex] = this.clone(newTableData[tableIndex])
     }
     this.setState({
       userData: newUserData,
