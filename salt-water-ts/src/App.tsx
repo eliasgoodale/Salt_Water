@@ -4,121 +4,24 @@ import * as React from 'react'
 
 /* Kendo */
 import { orderBy } from '@progress/kendo-data-query'
-import { Dialog, DialogActionsBar } from '@progress/kendo-react-dialogs'
 import { Grid, GridColumn as Column, GridToolbar } from '@progress/kendo-react-grid'
-import { Input } from '@progress/kendo-react-inputs';
-
 import '@progress/kendo-theme-default/dist/all.css'
 
-/* Helper */
+/* Helper Modules*/
 import * as jsonpatch from 'fast-json-patch'
 import * as Joi from 'joi'
 
 /* Component */
-import CommandCell from './CommandCell'
+import { CheckboxCell, CommandCell } from './components/CustomCells'
 
+import { PasswordDialog, RemoveDialog } from './components/Dialogs'
 
-class CheckboxCell extends Component<any, {}> {
-
-  public render() {
-    const { dataItem, field, onChange } = this.props
-    const value = dataItem[field];
-    return (
-      dataItem.inEdit ?
-        <td>
-
-          <input type="checkbox" id={field} className="k-checkbox" checked={value}
-            onChange={(e: any) => {
-              e.dataItem = dataItem
-              e.field = field
-              e.value = !value
-              onChange(e)
-            }}
-          />
-          <label className="k-checkbox-label" htmlFor={field} />
-
-        </td> :
-        value ?
-          <td>
-            <input type="checkbox"  className="k-checkbox" checked={value} />
-            <label className="k-checkbox-label" />
-          </td>
-          : <td />
-
-    );
-  }
-}
-
-
+/* Utilities */
+import {blankData, generateID, IState, IUser, userSchema} from './utils'
 
 const API_URL: string = "http://localhost:5500/users"
 
-/* Generates a 12 digit hexadecimal string */
-function generateID(): string {
-  const newID: string = Math.random().toString(16).substring(3)
-  return newID
-}
-
-interface IUser {
-  id?: string
-  firstName: string
-  lastName: string
-  password: string
-  username: string
-  isActive: boolean
-  isEntryAdmin: boolean
-  isListAdmin: boolean
-  isLocationManager: boolean
-  isOperatorAdmin: boolean
-  isUserAdmin: boolean
-}
-
-const blankData: IUser = {
-  id: "temp",
-  firstName: "",
-  lastName: "",
-  password: "",
-  username: "",
-  isActive: true,
-  isEntryAdmin: false,
-  isListAdmin: false,
-  isLocationManager: false,
-  isOperatorAdmin: false,
-  isUserAdmin: false,
-}
-
-interface IState {
-  editID: string | null
-  tableData: any
-  userData: any
-  userInEdit: any
-  passwordModalOpen: boolean
-  showInactive: boolean
-  removeAlertOpen: boolean
-  lockEdit: boolean
-  sort: any
-  newPassword: any
-  confirmPassword: any
-}
-
-const schema: any = Joi.object().keys({
-  id: Joi.string(),
-  firstName: Joi.string().min(2).max(20).required(),
-  lastName: Joi.string().min(2).max(20).required(),
-  username: Joi.string().min(5).max(20).required(),
-  password: Joi.string().min(6).max(25).required(),
-  isActive: Joi.boolean().required(),
-  isEntryAdmin: Joi.boolean().required(),
-  isListAdmin: Joi.boolean().required(),
-  isLocationManager: Joi.boolean().required(),
-  isOperatorAdmin: Joi.boolean().required(),
-  isUserAdmin: Joi.boolean().required(),
-})
-
-
-class App extends Component<{}, IState>{
-
-  /* Refactor later if constructor wont be needed */
+export default class App extends Component<{}, IState>{
 
   constructor(props: any) {
     super(props)
@@ -126,7 +29,6 @@ class App extends Component<{}, IState>{
       editID: null,
       tableData: [],
       userData: [],
-      userInEdit: {},
       passwordModalOpen: false,
       showInactive: false,
       removeAlertOpen: false,
@@ -165,6 +67,7 @@ class App extends Component<{}, IState>{
           editField="inEdit"
           onRowClick={this.rowClick}
           onItemChange={this.userChange}
+          reorderable={true}
           sortable={true}
           sort={this.state.sort}
           onSortChange={(e) => {
@@ -172,9 +75,7 @@ class App extends Component<{}, IState>{
               sort: e.sort
             })
           }}
-
         >
-
           <GridToolbar>
             <div>
 
@@ -225,82 +126,29 @@ class App extends Component<{}, IState>{
             cell={(props) => <CheckboxCell {...props} />} />
           <Column field="isUserAdmin" title="User Admin" editor="boolean"
             cell={(props) => <CheckboxCell {...props} />} />
-          <Column
+          <Column sortable={false}
             cell={CommandCell(this.togglePasswordModal, this.reactivateUser)}
             width="150px"
           />
         </Grid>
-        {this.state.passwordModalOpen && <Dialog
-          title="Change Password"
-          onClose={this.cancel}
-        >
-          <form >
-            <div style={{ marginBottom: '1rem' }}>
+     
+        { this.state.passwordModalOpen && 
+          <PasswordDialog
+            newPassword={this.state.newPassword}
+            confirmPassword={this.state.confirmPassword}
+            handlePasswordInput={this.handlePasswordInput}
+            togglePasswordModal={this.togglePasswordModal}
+            savePassword={this.savePassword}
+            passwordValid={this.passwordValid}
 
-              <label>
-                New Password<br />
-                <Input
-                  type="text"
-                  name="newPassword"
-                  value={this.state.newPassword}
-                  onChange={this.handlePasswordInput}
+          />
+        }
 
-                />
-              </label>
-              <br />
-              <label>
-                Confirm Password <br />
-                <Input
-                  type="text"
-                  name="confirmPassword"
-                  value={this.state.confirmPassword}
-                  onChange={this.handlePasswordInput}
-                />
-              </label>
-
-            </div>
-          </form>
-
-          <DialogActionsBar>
-            <button
-              className="k-button"
-              onClick={this.cancel}
-            >
-              Cancel
-            </button>
-            <button
-              className="k-button k-primary"
-              onClick={this.savePassword}
-              disabled={!this.passwordValid()}
-            >
-              Save
-            </button>
-          </DialogActionsBar>
-
-        </Dialog>}
-
-        {this.state.removeAlertOpen && <Dialog
-          title="Remove User?"
-          onClose={this.toggleRemoveAlert}
-        >
-          <label>
-            Are you sure you want to delete this user? <br />
-          </label>
-          <DialogActionsBar>
-            <button
-              className="k-button"
-              onClick={this.toggleRemoveAlert}
-            >
-              Cancel
-                        </button>
-            <button
-              className="k-button k-primary"
-              onClick={this.remove}
-            >
-              Confirm
-            </button>
-          </DialogActionsBar>
-        </Dialog>
+        { this.state.removeAlertOpen && 
+          <RemoveDialog
+            toggleRemoveAlert={this.toggleRemoveAlert}
+            remove={this.remove}
+          />
         }
         <button
           className="k-button k-primary "
@@ -342,14 +190,13 @@ class App extends Component<{}, IState>{
   }
 
   private userChange = (e: any): void => {
-    console.log("called")
     const editData: any = this.state.tableData.slice()
     const index: number = editData.findIndex((u: any) => u.id === e.dataItem.id)
 
     editData[index] = { ...editData[index], [e.field]: e.value }
     this.setState({
       tableData: editData,
-      userInEdit: editData[index]
+      
     })
   }
 
@@ -362,12 +209,6 @@ class App extends Component<{}, IState>{
       tableData: newTableData,
     })
   }
-
-  // private toggleCheckbox = (field: string): void => {
-  //   this.setState({
-
-  //   })
-  // } 
 
   private clearPassword = (): void => {
     this.setState({
@@ -405,7 +246,7 @@ class App extends Component<{}, IState>{
 
   private patchUser = async (updateUser: IUser, originalUser: IUser): Promise<void> => {
 
-    const diff: any = jsonpatch.compare(updateUser, originalUser)
+    const diff: any = jsonpatch.compare(originalUser, updateUser)
     console.log(`PATCH payload:\n`)
     console.table(diff)
 
@@ -449,7 +290,7 @@ class App extends Component<{}, IState>{
         const originalUser: IUser = userData.find((u: IUser) => u.id === editID)
         changed = jsonpatch.compare(originalUser, selectedUser).length === 0 ? false : true
       }
-      const result: any = Joi.validate({ ...selectedUser }, schema)
+      const result: any = Joi.validate({ ...selectedUser }, userSchema)
       return result.error || !changed ? false : true
     }
     return false
@@ -465,7 +306,7 @@ class App extends Component<{}, IState>{
     this.setState({
       lockEdit: true,
       editID: newUser.id,
-      userInEdit: newUser,
+      
       tableData: newData,
       showInactive: false,
     })
@@ -483,7 +324,7 @@ class App extends Component<{}, IState>{
     }
     this.setState({
       editID: selectedUser.id,
-      userInEdit: selectedUser
+      
     })
   }
 
@@ -515,10 +356,6 @@ class App extends Component<{}, IState>{
     return Object.assign({}, data)
   }
 
-
-
-
-
   private save = (): void => {
     const { editID } = this.state
     const newTableData = this.state.tableData.slice()
@@ -543,8 +380,6 @@ class App extends Component<{}, IState>{
 
   }
 
-
-
   private remove = (): void => {
     if (this.state.removeAlertOpen) {
       this.toggleRemoveAlert()
@@ -563,8 +398,3 @@ class App extends Component<{}, IState>{
     })
   }
 }
-
-
-
-
-export default App;
