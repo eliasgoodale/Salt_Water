@@ -1,7 +1,5 @@
 import {comments, todos, users, haulers} from './tables'
 
-
-
 const initialState = {
     comments : {
         grid: {
@@ -103,20 +101,15 @@ const initialState = {
     },
 }
 
-const getTable = (actionType) => {
-    if (actionType.includes('COMMENT'))
-        return 'comments';
-    else if (actionType.includes('TODO'))
-        return 'todos';
-    else if (actionType.includes('USER'))
-        return 'users';
-    else if (actionType.includes('HAULER'))
-        return 'haulers'
-    return actionType
+const getTable = (action) => {
+    if (action.type.includes('GET'))
+        return action.meta.table
+    else
+        return "none"
 }
 
 export default (state=initialState, action) => {
-    const table = getTable(action.type)
+    const table = getTable(action)
     switch(table) {
         case 'comments':
             return { ...state, comments: comments(state.comments, action) }

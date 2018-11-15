@@ -10,17 +10,16 @@ import logger from 'redux-logger';
 import promise from 'redux-promise-middleware';
 import axios from 'axios';
 import 'rxjs'
-import * as reducers from './reducers';
+
 
 import httpClient from './httpClient'
 import thunk from 'redux-thunk'
-import rootReducer from './reducers/api'
+import rootReducer from './reducers'
 import commentEpic from './epics/commentEpic'
 import { createEpicMiddleware } from 'redux-observable'
 
 
-import {fetchTodos, fetchUsers, fetchComments,
-    fetchTodo, fetchUser, fetchComment, fetchCommentList} from './actions/api';
+import {getOne, getAll, getList} from './actions/api';
 
 import { interval } from 'rxjs'
 const epicMiddleWare = createEpicMiddleware();
@@ -58,9 +57,10 @@ const fetchList = () => ({
 
 
 // fetchList.payload.subscribe((val) => console.log(val))
- store.dispatch(fetchList())
 
-store.dispatch(fetchUsers())
+
+
+store.dispatch(getList('todos', [7, 4,5,6]));
 // store.dispatch(fetchUsers())
 
 // store.dispatch(fetchTodo(6))

@@ -1,17 +1,18 @@
 
 export default (state={}, action) => {
     const { COLLECTION } = action.meta
+    console.log("COLLECTIONS CALLED!!!!!!!!!")
     switch (action.type) {
-        case `FETCH_${COLLECTION}_PENDING`:
+        case `GET_ALL_PENDING`:
             return { ...state, fetching: true }
-        case `FETCH_${COLLECTION}_FULFILLED`:
+        case `GET_ALL_FULFILLED`:
             return { 
                 ...state, 
                 fetching: false, 
                 fetched: true,
                 data: action.payload.data
             }
-        case `FETCH_${COLLECTION}_REJECTED`:
+        case `GET_ALL_REJECTED`:
             return { 
                 ...state, 
                 fetching: false, 

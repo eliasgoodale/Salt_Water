@@ -1,6 +1,31 @@
-// import { users, todos, apiInstance, grids } from './api'
-// import { counter, gridIndex } from './ui'
-// import { combineReducers } from 'redux';
 
+import { combineReducers } from 'redux';
+import {tables} from './api'
+import { inspector } from './ui'
 
-// export default combineReducers ({ users, todos });
+function gridIndex(state=['users', 'todos', 'comments'], action) {
+    switch(action.payload){
+        default:
+            return state;
+    }
+}
+
+function ignoreLogger(state={}, action) {
+    switch(action.type) {
+        case "@@redux/INITx.o.k.2.3.o":
+            return state;
+        case "@@redux/PROBE_UNKNOWN_ACTIONb.5.m.e.c.w":
+            return state;
+        case "@@redux/INITx.o.k.2.3.o":
+            return state;
+        default:
+            return state;
+    }
+}
+
+export default combineReducers({
+
+    gridIndex,
+    tables,
+    inspector,
+})

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { gridsMeta } from './dataHeaders'
 import { bindActionCreators } from 'redux';
 import { GridBar } from './components/grid-bar'
-import { fetchUsers, fetchTodos, fetchComments } from './actions/api'
+import { getAll, getOne, getList} from './actions/api'
 import { selectGridItem } from './actions/ui'
 
 
@@ -30,7 +30,7 @@ class App extends Component {
               id={gridKey} 
               header={grid} 
               data={collection.data} 
-              style={{ width: 500}}
+              style={{ width: 50}}
               onRowClick={selectGridItem}/>
     })
     return (
@@ -64,9 +64,7 @@ function mapStateToProps(state) {
 
 const  mapDispatchToProps = (dispatch) => {
   return {
-    fetchUsers: () => {dispatch(fetchUsers())},
-    fetchTodos: () => {dispatch(fetchTodos())},
-    fetchComments: () => {dispatch(fetchComments())},
+    getAll: () => {dispatch(getAll())},
     selectGridItem: (e) => {dispatch(selectGridItem(e.dataItem))}
   }
 }

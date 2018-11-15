@@ -34,12 +34,12 @@ import { pipe } from 'rxjs'
 // }
 
 export default (action$, store) => action$.pipe(
-    ofType('FETCH_LIST'),
-    mergeMap(({ payload }) => payload.pipe(
+    ofType('GET_LIST'),
+    mergeMap(({ payload, meta }) => payload.pipe(
         map(response => ({
-            type: 'FETCH_COMMENT_FULFILLED',
+            type: 'GET_ONE_FULFILLED',
             payload: response.data,
-            meta: {ITEM: 'COMMENT'}
+            meta: { table: meta.table }
         })
     )))
 )

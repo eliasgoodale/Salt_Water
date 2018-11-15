@@ -1,19 +1,17 @@
 export default (state={}, action) => {
-    const { id, ITEM } = action.meta
-    console.log(ITEM)
     switch (action.type) {
-        case `FETCH_${ITEM}_PENDING`:
-            return { ...state, fetching: id }
-        case `FETCH_${ITEM}_FULFILLED`:
+        case `GET_ONE_PENDING`:
+            return { ...state, fetching: true, }
+        case `GET_ONE_FULFILLED`:
             return { 
                 ...state, 
                 fetching: null, 
-                fetchedList: [
-                    ...state.fetchedList,
+                data: [
+                    ...state.data,
                     action.payload
                 ]
             }
-        case `FETCH_${ITEM}_REJECTED`:
+        case `GET_ONE_REJECTED`:
             return { 
                 ...state, 
                 fetching: null, 

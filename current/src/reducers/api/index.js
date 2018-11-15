@@ -1,19 +1,4 @@
-
-import { combineReducers } from 'redux';
-import tables from './requests'
-import { inspector } from '../ui'
-
-function gridIndex(state=['users', 'todos', 'comments'], action) {
-    switch(action.payload){
-        default:
-            return state;
-    }
-}
+import requests from './requests'
+export { requests as tables }
 
 
-
-export default combineReducers({
-    gridIndex,
-    tables,
-    inspector,
-})

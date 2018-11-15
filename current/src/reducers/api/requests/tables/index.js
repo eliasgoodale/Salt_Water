@@ -1,42 +1,49 @@
 import validation from './validationsReducer';
 import collection from './collectionsReducer';
 
-const isValidation = (meta={}) => {
-    return meta.hasOwnProperty('ITEM')
+const route = (actionType) => {
+    return 'COLLECTION'
 }
-
 export const users = (state={}, action) => {
-    switch(isValidation(action.meta)) {
-        case true:
-            return {...state, validation: validation(state.validation, action) }
+    switch(route(action.type)) {
+        case 'COLLECTION':
+            console.log('CALLED USERS')
+            return { ...state, collection: collection(state.collection, action)}
+        case 'VALIDATION':
+            return { ...state, validation: validation(state.validation, action) }
         default:
-            return {...state, collection: collection(state.collection, action) }
-        
+            return state;
     }
 }
 
 export const todos = (state={}, action) => {
-    switch(isValidation(action.meta)) {
-        case true:
+    switch(route(action.type)) {
+        case 'COLLECTION':
             return {...state, validation: validation(state.validation, action) }
-        default:
+        case 'VALIDATION':
             return {...state, collection: collection(state.collection, action) }
+        default:
+            return state;
     }
 }
 export const comments = (state={}, action) => {
-    switch(isValidation(action.meta)) {
-        case true:
+    switch(route(action.type)) {
+        case 'COLLECTION':
             return {...state, validation: validation(state.validation, action) }
-        default:
+        case 'VALIDATION':
             return {...state, collection: collection(state.collection, action) }
+        default:
+            return state;
     }
 }
 
 export const haulers = (state={}, action) => {
-    switch(isValidation(action.meta)) {
-        case true:
+    switch(route(action.type)) {
+        case 'COLLECTION':
             return {...state, validation: validation(state.validation, action) }
-        default:
+        case 'VALIDATION':
             return {...state, collection: collection(state.collection, action) }
+        default:
+            return state;
     }
 }
